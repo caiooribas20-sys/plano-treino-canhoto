@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano Canhoto — 3 Dias</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #0F0F11;
+    --surface:    #18181C;
+    --surface2:   #1F1F25;
+    --border:     rgba(255,255,255,0.07);
+    --border2:    rgba(255,255,255,0.12);
+    --text:       #EAEAEA;
+    --text2:      #888;
+    --text3:      #555;
+    --accent:     #E63946;
+    --accent-dim: rgba(230,57,70,0.15);
+    --blue:       #4F8EF7;
+    --blue-dim:   rgba(79,142,247,0.12);
+    --green:      #52C472;
+    --green-dim:  rgba(82,196,114,0.12);
+    --amber:      #F5A623;
+    --amber-dim:  rgba(245,166,35,0.12);
+    --purple:     #9B72F5;
+    --purple-dim: rgba(155,114,245,0.12);
+    --coral:      #FF6B6B;
+    --coral-dim:  rgba(255,107,107,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 600px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+    animation: fadeUp .4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* NAV */
+  .nav {
+    display: flex;
+    gap: 4px;
+    padding: 12px 12px 0;
+    background: var(--surface);
+    flex-wrap: wrap;
+  }
+  .nav-btn {
+    flex: 1;
+    min-width: 60px;
+    padding: 8px 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all .2s;
+    text-align: center;
+  }
+  .nav-btn:hover  { color: var(--text); border-color: var(--border2); }
+  .nav-btn.active { background: var(--surface2); color: var(--text); border-color: var(--border2); }
+
+  /* TABS */
+  .tab { display: none; }
+  .tab.active { display: block; animation: fadeIn .22s ease both; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* HEADER */
+  .t-header {
+    padding: 1.25rem 1.25rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .badge-row { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+  .badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 99px;
+    border: 1px solid;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .b-default { background: var(--surface2);   color: var(--text2);   border-color: var(--border2); }
+  .b-blue    { background: var(--blue-dim);   color: var(--blue);   border-color: rgba(79,142,247,0.3); }
+  .b-green   { background: var(--green-dim);  color: var(--green);  border-color: rgba(82,196,114,0.3); }
+  .b-amber   { background: var(--amber-dim);  color: var(--amber);  border-color: rgba(245,166,35,0.3); }
+  .b-purple  { background: var(--purple-dim); color: var(--purple); border-color: rgba(155,114,245,0.3); }
+  .b-red     { background: var(--accent-dim); color: var(--accent); border-color: rgba(230,57,70,0.35); }
+  .b-coral   { background: var(--coral-dim);  color: var(--coral);  border-color: rgba(255,107,107,0.3); }
+
+  .t-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .t-sub { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  .info-box {
+    margin-top: 12px;
+    padding: 10px 13px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    line-height: 1.65;
+    border: 1px solid;
+  }
+  .info-blue { background: var(--blue-dim);  color: #A8C8FA; border-color: rgba(79,142,247,0.2); }
+  .info-warn { background: var(--amber-dim); color: #F5CB7A; border-color: rgba(245,166,35,0.2); }
+  .info-box strong { font-weight: 600; }
+
+  /* TIMELINE */
+  .tl {
+    display: flex;
+    gap: 3px;
+    padding: 10px 1.25rem;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+    scrollbar-width: none;
+  }
+  .tl::-webkit-scrollbar { display: none; }
+  .tl-seg {
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 500;
+    white-space: nowrap;
+    border-radius: 5px;
+    padding: 0 8px;
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+
+  /* BLOCKS */
+  .block { border-bottom: 1px solid var(--border); }
+  .block:last-of-type { border-bottom: none; }
+
+  .block-hd {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px 1.25rem;
+    cursor: pointer;
+    transition: background .15s;
+    user-select: none;
+  }
+  .block-hd:hover { background: var(--surface2); }
+
+  .bicon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .bmeta { flex: 1; min-width: 0; }
+  .btitle { font-size: 13px; font-weight: 600; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bdesc  { font-size: 12px; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .btime {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 5px;
+    padding: 2px 8px;
+    white-space: nowrap;
+    color: var(--text2);
+    flex-shrink: 0;
+  }
+
+  .chev {
+    font-size: 9px;
+    color: var(--text3);
+    transition: transform .22s ease;
+    margin-left: 3px;
+    flex-shrink: 0;
+  }
+
+  .block-body { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+  .block-body.open { max-height: 900px; }
+  .block-inner { padding: 0 1.25rem 16px; border-top: 1px solid var(--border); }
+
+  .drow { display: flex; gap: 10px; margin-top: 10px; align-items: flex-start; }
+  .dot  { width: 5px; height: 5px; border-radius: 50%; background: var(--text3); flex-shrink: 0; margin-top: 7px; }
+  .dot-right { background: var(--accent); box-shadow: 0 0 6px rgba(230,57,70,0.5); }
+  .drow p { font-size: 13px; color: var(--text); line-height: 1.55; }
+
+  .tag-right {
+    display: inline-block;
+    font-size: 9.5px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid rgba(230,57,70,0.35);
+    margin-left: 7px;
+    vertical-align: middle;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .lrow { display: flex; align-items: center; gap: 8px; margin-top: 11px; padding: 7px 10px; background: var(--surface2); border-radius: 7px; border: 1px solid var(--border); }
+  .lrow-icon { font-size: 12px; color: var(--blue); flex-shrink: 0; }
+  .lrow a { font-size: 12px; color: var(--blue); text-decoration: none; }
+  .lrow a:hover { text-decoration: underline; }
+
+  .tip {
+    margin-top: 10px;
+    padding: 9px 12px;
+    background: var(--amber-dim);
+    border-left: 2px solid var(--amber);
+    border-radius: 0 7px 7px 0;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #F5CB7A;
+  }
+  .tip strong { font-weight: 600; color: var(--amber); }
+
+  .prog-box {
+    margin-top: 8px;
+    padding: 9px 12px;
+    background: var(--green-dim);
+    border-left: 2px solid var(--green);
+    border-radius: 0 7px 7px 0;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #8EDCA8;
+  }
+  .prog-box strong { font-weight: 600; color: var(--green); }
+
+  /* TOTAL */
+  .total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 1.25rem;
+    background: var(--surface2);
+    border-top: 1px solid var(--border);
+  }
+  .total span:first-child { font-size: 12.5px; color: var(--text2); }
+  .total span:last-child  { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; }
+
+  /* WEEK GRID */
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .week-card {
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    cursor: pointer;
+    transition: all .18s;
+    position: relative;
+    overflow: hidden;
+  }
+  .week-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    border-radius: 2px 2px 0 0;
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  .week-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+  .week-card:hover::before { opacity: 1; }
+  .week-card.wc-a::before { background: var(--blue); }
+  .week-card.wc-b::before { background: var(--accent); }
+  .week-card.wc-c::before { background: var(--purple); }
+  .week-day   { font-size: 10px; color: var(--text3); margin-bottom: 5px; letter-spacing: 0.04em; text-transform: uppercase; font-weight: 500; }
+  .week-name  { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .week-focus { font-size: 11px; color: var(--text2); line-height: 1.5; }
+  .week-label { display: inline-block; font-size: 9.5px; font-weight: 600; padding: 1px 7px; border-radius: 4px; margin-bottom: 6px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .wl-a { background: var(--blue-dim);   color: var(--blue); }
+  .wl-b { background: var(--accent-dim); color: var(--accent); }
+  .wl-c { background: var(--purple-dim); color: var(--purple); }
+
+  /* EVAL */
+  .eval-section { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
+  .eval-label   { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+
+  .eval-test { margin-bottom: 14px; }
+  .eval-test-head { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+  .eval-test-title { font-size: 12.5px; font-weight: 600; }
+  .eval-test-unit  { font-size: 10px; color: var(--text3); }
+  .eval-test-desc  { font-size: 11.5px; color: var(--text2); margin-bottom: 6px; padding-left: 24px; }
+  .eval-input {
+    width: 100%;
+    padding: 7px 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 7px;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    outline: none;
+    color-scheme: dark;
+  }
+  .eval-input:focus { border-color: var(--blue); }
+
+  .eval-row { display: flex; gap: 8px; margin-bottom: 14px; }
+  .eval-row > div { flex: 1; }
+  .eval-row label { display: block; font-size: 11px; color: var(--text2); margin-bottom: 4px; }
+
+  .eval-save-btn {
+    width: 100%;
+    padding: 10px;
+    background: var(--green-dim);
+    border: 1px solid rgba(82,196,114,0.3);
+    border-radius: 8px;
+    color: var(--green);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .eval-save-btn:hover { background: rgba(82,196,114,0.2); }
+
+  .hist-wrap { overflow-x: auto; margin-top: 4px; }
+  .hist-table { width: 100%; border-collapse: collapse; min-width: 480px; }
+  .hist-table th { padding: 6px 10px; text-align: left; font-size: 10.5px; color: var(--text3); font-weight: 500; border-bottom: 1px solid var(--border2); }
+  .hist-table th.center { text-align: center; }
+  .hist-table td { padding: 7px 10px; font-size: 12px; border-top: 1px solid var(--border); }
+  .hist-table td.mono { font-family: 'DM Mono', monospace; text-align: center; }
+  .hist-table td.meta { font-size: 11px; color: var(--text2); white-space: nowrap; }
+  .del-btn { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 11px; padding: 2px 6px; border-radius: 4px; }
+  .del-btn:hover { color: var(--accent); background: var(--accent-dim); }
+  .hist-empty { padding: 20px; text-align: center; color: var(--text3); font-size: 12px; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- NAV -->
+  <div class="nav">
+    <button class="nav-btn active" onclick="switchTab('week')">Semana</button>
+    <button class="nav-btn" onclick="switchTab('a')">A · Base</button>
+    <button class="nav-btn" onclick="switchTab('b')">B · Pé dir.</button>
+    <button class="nav-btn" onclick="switchTab('c')">C · Jogo</button>
+    <button class="nav-btn" onclick="switchTab('eval')">📊 Evolução</button>
+  </div>
+
+  <!-- SEMANA -->
+  <div id="tab-week" class="tab active">
+    <div class="t-header">
+      <div class="badge-row">
+        <span class="badge b-default">3 dias / semana</span>
+        <span class="badge b-blue">Solo</span>
+        <span class="badge b-red">Foco: pé direito</span>
+      </div>
+      <div class="t-title">Ciclo semanal — intermediário voltando</div>
+      <div class="t-sub">Cada treino dura 45 min e funciona 100% solo. O pé direito aparece em todos os dias, não só na finalização.</div>
+      <div class="info-box info-blue">
+        <strong>Lógica do ciclo:</strong> A reconstrói a base geral → B aprofunda o pé fraco com paciência → C une tudo sob pressão e fadiga, simulando situações de jogo.
+      </div>
+    </div>
+
+    <div class="week-grid">
+      <div class="week-card wc-a" onclick="switchTab('a')">
+        <div class="week-label wl-a">Dia 1</div>
+        <div class="week-day">ex: segunda</div>
+        <div class="week-name">A — Base</div>
+        <div class="week-focus">Reconstrução geral. Intensidade baixa–média.</div>
+      </div>
+      <div class="week-card wc-b" onclick="switchTab('b')">
+        <div class="week-label wl-b">Dia 2</div>
+        <div class="week-day">ex: quarta</div>
+        <div class="week-name">B — Pé direito</div>
+        <div class="week-focus">Foco total no pé fraco. Paciência e repetição.</div>
+      </div>
+      <div class="week-card wc-c" onclick="switchTab('c')">
+        <div class="week-label wl-c">Dia 3</div>
+        <div class="week-day">ex: sábado</div>
+        <div class="week-name">C — Jogo real</div>
+        <div class="week-focus">Intensidade alta. Decisão + fadiga + pressão.</div>
+      </div>
+    </div>
+
+    <div style="padding:.875rem 1.25rem 1.125rem">
+      <div class="info-box info-warn">
+        <strong>Progressão entre semanas:</strong> Nas primeiras 2 semanas, 60% dos exercícios com o pé direito e 40% com o esquerdo. Da 3ª semana em diante, inverta só na finalização para preservar o pé forte. Após 4 semanas, reavalie e adicione o Treino D (fadiga pura) como 4º dia opcional.
+      </div>
+    </div>
+
+    <div class="total">
+      <span>Duração por sessão</span>
+      <span>≈ 45 min</span>
+    </div>
+  </div>
+
+  <!-- TREINOS A, B, C (preenchidos por JS) -->
+  <div id="tab-a" class="tab"></div>
+  <div id="tab-b" class="tab"></div>
+  <div id="tab-c" class="tab"></div>
+
+  <!-- EVOLUÇÃO (preenchida por JS) -->
+  <div id="tab-eval" class="tab"></div>
+
+</div><!-- .card -->
+
+<script>
+// ─── DADOS ────────────────────────────────────────────────────────────────────
+
+function ytPT(q) {
+  return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q);
+}
+
+var treinos = {
+  a: {
+    badges: [['A · Base semanal','b-default'],['Reconstrução','b-blue'],['45 min','b-amber']],
+    title: 'Treino A — Base',
+    sub: 'Reconstrói todos os fundamentos. Intensidade baixa–média. Pé direito presente em todos os blocos.',
+    info: { type:'info-blue', text:'<strong>Objetivo:</strong> reativar o vocabulário técnico completo. Não é para ir ao limite — é para lembrar o corpo de como se move.' },
+    tl: [
+      { l:"Aquec. 5'", bg:'rgba(245,166,35,0.18)', c:'#F5A623' },
+      { l:"B1 Coord. 8'", bg:'rgba(79,142,247,0.18)', c:'#4F8EF7' },
+      { l:"B2 Passe 8'", bg:'rgba(82,196,114,0.18)', c:'#52C472' },
+      { l:"B3 Drible 8'", bg:'rgba(155,114,245,0.18)', c:'#9B72F5' },
+      { l:"Final 8'", bg:'rgba(230,57,70,0.18)', c:'#E63946' },
+      { l:"Desc. 3'", bg:'rgba(255,255,255,0.05)', c:'#666' }
+    ],
+    blocks: [
+      { em:'🔥', bg:'rgba(245,166,35,0.12)', fg:'#F5A623',
+        title:'Aquecimento', desc:'Ativação completa — não pule', time:'5 min',
+        details:[
+          { t:'Trote leve 1 min + mobilidade de quadril (1 min)', r:false },
+          { t:'Mobilidade de tornozelo direito: rotações lentas + dorsiflexão (1 min)', r:true },
+          { t:'Foot-taps sobre a bola alternando os dois pés (1 min)', r:false },
+          { t:'Toque de sola alternado — direito, esquerdo, direito... acelerando (1 min)', r:true }
+        ],
+        tip:'Não apresse o aquecimento. Você está voltando — o corpo precisa desses 5 min.',
+        prog:null, link:null },
+
+      { em:'🎯', bg:'rgba(79,142,247,0.12)', fg:'#4F8EF7',
+        title:'B1 — Coordenação e primeiro toque', desc:'Escada + recepção em 4 zonas com foco no pé direito', time:'8 min',
+        details:[
+          { t:'2 min: Escada com bola — sequência alternada normal', r:false },
+          { t:'2 min: Escada com bola — só entradas com o pé direito', r:true },
+          { t:'2 min: Recepção em 4 zonas — amortece e orienta com qualquer pé', r:false },
+          { t:'2 min: Recepção em 4 zonas — primeiro toque obrigatoriamente com o pé direito', r:true }
+        ],
+        tip:'No primeiro toque com o pé direito: não precisa ser perfeito, precisa ser intencional.',
+        prog:'Semana 3+: recepção + condução de 3 m com o pé direito antes de parar a bola.',
+        link:{ l:'Como melhorar domínio de bola e primeiro toque — PT', u: ytPT('como melhorar domínio de bola primeiro toque futebol sozinho brasil') } },
+
+      { em:'⚡', bg:'rgba(82,196,114,0.12)', fg:'#52C472',
+        title:'B2 — Passe e precisão', desc:'Passes na parede e gates — pé direito integrado', time:'8 min',
+        details:[
+          { t:'2 min: Passes de 1 toque na parede — pé esquerdo (ritmo)', r:false },
+          { t:'3 min: Passes de 1 toque na parede — pé direito (paciência, não velocidade)', r:true },
+          { t:'3 min: Gates de precisão (cones a 5 m) — alternar um passe de cada pé', r:true }
+        ],
+        tip:'No passe com o pé direito: tornozelo travado, não mole. Bata com o peito do pé — ajuste o ângulo se a bola não voltar centrada.',
+        prog:'Semana 3+: reduzir distância dos gates para 3 m e aumentar para 7 m em sequência.',
+        link:{ l:'Treino de passe sozinho na parede — PT', u: ytPT('treino passe futebol sozinho parede precisão brasil') } },
+
+      { em:'🌀', bg:'rgba(155,114,245,0.12)', fg:'#9B72F5',
+        title:'B3 — Drible técnico', desc:'Zigue-zague e finta com os dois pés', time:'8 min',
+        details:[
+          { t:'2 min: Zigue-zague livre entre cones a 1 m (qualquer pé)', r:false },
+          { t:'3 min: Zigue-zague com condução exclusiva pelo pé direito', r:true },
+          { t:'3 min: Zigue-zague + finta no último cone + saída com o pé direito', r:true }
+        ],
+        tip:'Condução exclusiva com o pé direito vai parecer lento no começo — isso é normal. Não troque de pé quando ficar difícil.',
+        prog:'Semana 3+: adicionar sprint de 5 m após a finta, partindo do pé direito.',
+        link:{ l:'32 Close Control Dribbling Cone Drills', u:'https://www.youtube.com/watch?v=nnXvo3ouJjQ' } },
+
+      { em:'🥅', bg:'rgba(230,57,70,0.12)', fg:'#E63946',
+        title:'Finalização', desc:'Colocada com os dois pés — volume igual', time:'8 min',
+        details:[
+          { t:'2 min: Colocada pé esquerdo — lado forte, cantos alternados', r:false },
+          { t:'3 min: Colocada pé direito — foco na técnica, não na força', r:true },
+          { t:'3 min: Recebe rolada da parede + finaliza com pé direito', r:true }
+        ],
+        tip:'Com o pé direito: plante o apoio apontando para o alvo, bata com o peito do pé travado. Esqueça o canto por enquanto — acerte o gol primeiro.',
+        prog:'Semana 3+: chute após condução curta de 3 m com o pé direito.',
+        link:{ l:'Como chutar com o pé fraco — PT', u: ytPT('como chutar com o pé fraco futebol tutorial português brasil') } },
+
+      { em:'🧘', bg:'rgba(255,255,255,0.04)', fg:'#888',
+        title:'Desaceleração', desc:'Alongamento e respiração', time:'3 min',
+        details:[
+          { t:'Quadríceps, isquiotibiais e panturrilha — 25 s cada (ambos os lados)', r:false },
+          { t:'Rotação de tornozelo direito por mais 30 s — o pé trabalhou mais hoje', r:true },
+          { t:'Respiração: 4 s nariz, 6 s boca — 5 ciclos', r:false }
+        ],
+        tip:null, prog:null, link:null }
+    ],
+    total:'≈ 45 min'
+  },
+
+  b: {
+    badges: [['B · Pé direito','b-red'],['Foco assimétrico','b-coral'],['45 min','b-amber']],
+    title: 'Treino B — Pé direito',
+    sub: 'Sessão dedicada ao pé fraco. Todo exercício começa e termina com o pé direito.',
+    info: { type:'info-warn', text:'<strong>Aviso:</strong> este treino vai ser frustrante nas primeiras semanas — e é exatamente assim que deve ser. O desconforto é sinal de adaptação. Não reduza o tempo no pé direito quando ficar difícil.' },
+    tl: [
+      { l:"Aquec. 5'", bg:'rgba(245,166,35,0.18)', c:'#F5A623' },
+      { l:"B1 Toque 6→10'", bg:'rgba(230,57,70,0.18)', c:'#E63946' },
+      { l:"B2 Passe 6→10'", bg:'rgba(230,57,70,0.18)', c:'#E63946' },
+      { l:"B3 Drible 8'", bg:'rgba(230,57,70,0.18)', c:'#E63946' },
+      { l:"Final 9'", bg:'rgba(255,107,107,0.18)', c:'#FF6B6B' },
+      { l:"Desc. 3'", bg:'rgba(255,255,255,0.05)', c:'#666' }
+    ],
+    blocks: [
+      { em:'🔥', bg:'rgba(245,166,35,0.12)', fg:'#F5A623',
+        title:'Aquecimento — foco no pé direito', desc:'Ativação com ênfase no lado fraco', time:'5 min',
+        details:[
+          { t:'Trote leve (1 min)', r:false },
+          { t:'Mobilidade específica: rotações e dorsiflexão do tornozelo direito (1 min)', r:true },
+          { t:'Foot-taps só com o pé direito sobre a bola (1 min)', r:true },
+          { t:'Toque de sola alternado acelerando gradualmente (1 min)', r:false },
+          { t:'Passe de 3 m na parede só com o pé direito — calmo (1 min)', r:true }
+        ],
+        tip:null, prog:null, link:null },
+
+      { em:'🎯', bg:'rgba(230,57,70,0.12)', fg:'#E63946',
+        title:'B1 — Controle com o pé direito', desc:'Primeiro toque, amortecimento e orientação', time:'6→10 min',
+        details:[
+          { t:'2 min: Toque de sola contínuo — manter a bola rolando sob controle', r:true },
+          { t:'2 min: Bola jogada na parede a 3 m — receber e amortecer só com o pé direito', r:true },
+          { t:'2 min: Recepção + orientação — recebe com o pé direito e orienta para zona livre antes de parar', r:true }
+        ],
+        tip:'Se a bola escapar, não corra com o pé esquerdo — retorne, reposicione e repita com o direito.',
+        prog:'Semanas 1–2: faça 6 min. Aumente 1 min por semana até chegar aos 10 min. Semana 5+: recepção + condução de 5 m + passe de volta, tudo com o pé direito.',
+        link:{ l:'Como desenvolver o pé fraco no futebol — PT', u: ytPT('como desenvolver pé fraco futebol treino sozinho brasil') } },
+
+      { em:'⚡', bg:'rgba(230,57,70,0.12)', fg:'#E63946',
+        title:'B2 — Passe com o pé direito', desc:'Precisão, distância e ritmo no pé fraco', time:'6→10 min',
+        details:[
+          { t:'2 min: Passe de 1 toque na parede a 3 m — ritmo lento, foco no contato', r:true },
+          { t:'2 min: Passe de 1 toque na parede a 5 m — aumentar distância, manter técnica', r:true },
+          { t:'2 min: Gates de precisão (cones a 5 m) — 100% com o pé direito', r:true }
+        ],
+        tip:'Tornozelo travado, não mole. Bata com o peito do pé — não com o dedo nem com a ponta.',
+        prog:'Semanas 1–2: faça 6 min. Aumente 1 min por semana até chegar aos 10 min. Semana 5+: chips curtos com o pé direito por cima de cone achatado.',
+        link:{ l:'Treino de precisão no passe pé fraco — PT', u: ytPT('treino precisão passe pé fraco futebol sozinho brasil') } },
+
+      { em:'🌀', bg:'rgba(230,57,70,0.12)', fg:'#E63946',
+        title:'B3 — Drible e condução com o pé direito', desc:'Controle em movimento e mudança de direção', time:'8 min',
+        details:[
+          { t:'3 min: Condução em zigue-zague só com o pé direito — cones a 1,5 m', r:true },
+          { t:'3 min: Condução + parada com sola no cone + retomada', r:true },
+          { t:'2 min: Finta simples (corpo para um lado, sai pelo outro) com saída pelo pé direito', r:true }
+        ],
+        tip:'A condução com o pé fraco vai ser mais lenta — não tente compensar acelerando. Velocidade vem depois da consistência.',
+        prog:'Semana 3+: 1v1 contra cone com saída obrigatória pelo pé direito.',
+        link:{ l:'32 Close Control Dribbling Cone Drills', u:'https://www.youtube.com/watch?v=nnXvo3ouJjQ' } },
+
+      { em:'🥅', bg:'rgba(255,107,107,0.12)', fg:'#FF6B6B',
+        title:'Finalização — quase 100% pé direito', desc:'Volume alto de finalização com o pé fraco', time:'9 min',
+        details:[
+          { t:'3 min: Chute parado — sem correr, só técnica de contato', r:true },
+          { t:'3 min: Condução curta de 5 m + finalização', r:true },
+          { t:'2 min: Recebe rolada da parede + finaliza', r:true },
+          { t:'1 min: 3 chutes com o pé esquerdo para encerrar com confiança', r:false }
+        ],
+        tip:'Chute parado: apoio ao lado da bola apontando para o alvo. Quadril abre. Bata com o peito do pé, não com a ponta.',
+        prog:'Semana 3+: recepção aérea (lança a bola e finaliza na queda) com o pé direito.',
+        link:{ l:'7 drills de pé fraco para fazer sozinho — PT', u: ytPT('exercícios pé fraco futebol sozinho finalização drills brasil') } },
+
+      { em:'🧘', bg:'rgba(255,255,255,0.04)', fg:'#888',
+        title:'Desaceleração', desc:'Atenção especial ao tornozelo direito', time:'3 min',
+        details:[
+          { t:'Panturrilha direita — 30 s (trabalhou mais)', r:true },
+          { t:'Quadríceps e isquiotibiais dos dois lados — 20 s cada', r:false },
+          { t:'Rotação de tornozelo direito — 20 vezes para cada lado', r:true },
+          { t:'Respiração: 4 s nariz, 6 s boca — 5 ciclos', r:false }
+        ],
+        tip:null, prog:null, link:null }
+    ],
+    total:'≈ 45 min'
+  },
+
+  c: {
+    badges: [['C · Jogo real','b-purple'],['Intensidade alta','b-coral'],['45 min','b-amber']],
+    title: 'Treino C — Jogo real',
+    sub: 'Decisão rápida, fadiga e pé direito sob pressão. Simula o que acontece num jogo de verdade.',
+    info: { type:'info-blue', text:'<strong>Objetivo:</strong> os treinos A e B são o aquecimento mental para chegar aqui. A fadiga é proposital — a finalização acontece com o corpo já exigido, exatamente como no jogo.' },
+    tl: [
+      { l:"Aquec. 5'", bg:'rgba(245,166,35,0.18)', c:'#F5A623' },
+      { l:"B1 Decisão 8'", bg:'rgba(79,142,247,0.18)', c:'#4F8EF7' },
+      { l:"B2 Pressão 8'", bg:'rgba(82,196,114,0.18)', c:'#52C472' },
+      { l:"B3 Fadiga 8'", bg:'rgba(155,114,245,0.18)', c:'#9B72F5' },
+      { l:"Final 9'", bg:'rgba(230,57,70,0.18)', c:'#E63946' },
+      { l:"Desc. 3'", bg:'rgba(255,255,255,0.05)', c:'#666' }
+    ],
+    blocks: [
+      { em:'🔥', bg:'rgba(245,166,35,0.12)', fg:'#F5A623',
+        title:'Aquecimento', desc:'Ativação rápida — o treino começa logo', time:'5 min',
+        details:[
+          { t:'Trote progressivo: leve → médio → sprint 10 m e volta (2 min)', r:false },
+          { t:'Mobilidade de tornozelo direito: 10 rotações para cada lado + dorsiflexão (1 min)', r:true },
+          { t:'Mobilidade rápida de quadril (30 s)', r:false },
+          { t:'Foot-taps alternados acelerando — termine com 15 s só no pé direito (1 min 30 s)', r:true }
+        ],
+        tip:'Não alongue muito aqui — guarde energia. O aquecimento é funcional, não completo.',
+        prog:null, link:null },
+
+      { em:'🧠', bg:'rgba(79,142,247,0.12)', fg:'#4F8EF7',
+        title:'B1 — Tomada de decisão', desc:'Reação antes de pensar + pé certo na hora certa', time:'8 min',
+        details:[
+          { t:'4 cones numerados 1, 2, 3, 4 ao redor', r:false },
+          { t:'2 min: Bola no centro, olha para um cone aleatório e conduz até ele — pé livre', r:false },
+          { t:'3 min: Mesma dinâmica, mas ao chegar no cone, volta com o pé direito', r:true },
+          { t:'3 min: Conduz com o pé direito até o cone, finta e sai por outro', r:true }
+        ],
+        tip:'O objetivo não é velocidade — é que o cérebro comece a incluir o pé direito nas decisões automáticas.',
+        prog:'Semana 3+: sprint de retorno após cada cone, saída obrigatória pelo pé direito.',
+        link:{ l:'How to Train Fast Decision Making | Full Coaching Session', u: ytPT('How To Train Fast Decision Making Full Coaching Session soccer') } },
+
+      { em:'🛡️', bg:'rgba(82,196,114,0.12)', fg:'#52C472',
+        title:'B2 — Proteção e pressão', desc:'Manter a bola sob pressão simulada', time:'8 min',
+        details:[
+          { t:'2 min: Proteção em área 2×2 m — corpo entre a bola e o cone "adversário"', r:false },
+          { t:'3 min: Proteção + virada 180° ao sinal — sair pelo pé direito', r:true },
+          { t:'3 min: Passe rápido na parede → recebe → protege → vira → sai — ciclo contínuo', r:false }
+        ],
+        tip:'Na virada: não olhe para a bola ao girar — sinta ela com o pé. O olhar deve ir para o espaço de saída.',
+        prog:'Semana 3+: após a saída, passe de precisão com o pé direito antes de reiniciar.',
+        link:{ l:'Como proteger a bola — giro 360° — PT', u: ytPT('como proteger a bola futebol giro 360 treino sozinho brasil') } },
+
+      { em:'💥', bg:'rgba(155,114,245,0.12)', fg:'#9B72F5',
+        title:'B3 — Fadiga técnica', desc:'Sprints + circuito + manter qualidade cansado', time:'8 min',
+        details:[
+          { t:'Série 1 — 2 min: Sprint 15 m com bola + para com sola do pé direito + retorna trotando', r:true },
+          { t:'45 s descanso', r:false },
+          { t:'Série 2 — 2 min: Circuito zigue-zague em losango (4 cones a 3 m) — condução pelo pé direito', r:true },
+          { t:'45 s descanso', r:false },
+          { t:'Série 3 — 2 min: Sprint 10 m + virada + sprint 10 m de volta + toque de sola ao chegar', r:false }
+        ],
+        tip:'Nas séries 1 e 2 você vai querer trocar para o esquerdo quando cansar. Não troque. Esse é exatamente o momento que importa.',
+        prog:'Semana 3+: aumentar distância dos sprints para 20 m.',
+        link:{ l:'Treino físico com bola para futebol — PT', u: ytPT('treino físico com bola futebol sprint resistência brasil') } },
+
+      { em:'🥅', bg:'rgba(230,57,70,0.12)', fg:'#E63946',
+        title:'Finalização sob fadiga', desc:'Chute com o corpo já exigido — pé direito incluído', time:'9 min',
+        details:[
+          { t:'2 min: Finalização pé esquerdo após condução — reestabelecer confiança', r:false },
+          { t:'3 min: Finalização pé direito após recepção rolada da parede', r:true },
+          { t:'2 min: Sprint 8 m + finalização pé direito imediata (sem parar)', r:true },
+          { t:'2 min: Sprint 8 m + finalização pé esquerdo (comparar com fadiga)', r:false }
+        ],
+        tip:'Os últimos 2 min não são para fazer gol — é para observar como o pé direito reage diferente do esquerdo quando cansado. Isso é informação para melhorar.',
+        prog:'Semana 3+: chip com o pé direito após sprint como variação.',
+        link:{ l:'Sessão de finalização individual — PT', u: ytPT('treino finalização individual futebol sozinho chute brasil') } },
+
+      { em:'🧘', bg:'rgba(255,255,255,0.04)', fg:'#888',
+        title:'Desaceleração — obrigatória', desc:'Intensidade foi alta — não pule o alongamento', time:'3 min',
+        details:[
+          { t:'Panturrilha direita — 30 s (maior carga hoje)', r:true },
+          { t:'Quadríceps e isquiotibiais dos dois lados — 25 s cada', r:false },
+          { t:'Tornozelo direito — rotações lentas por 30 s', r:true },
+          { t:'Respiração: 4 s nariz, 6 s boca — 6 ciclos mínimo', r:false }
+        ],
+        tip:null, prog:null, link:null }
+    ],
+    total:'≈ 45 min'
+  }
+};
+
+// ─── BUILD TREINOS ────────────────────────────────────────────────────────────
+
+function buildTab(key) {
+  var t = treinos[key];
+  var tab = document.getElementById('tab-' + key);
+
+  var bdg = t.badges.map(function(b) {
+    return '<span class="badge ' + b[1] + '">' + b[0] + '</span>';
+  }).join('');
+
+  var tls = t.tl.map(function(s) {
+    return '<div class="tl-seg" style="background:' + s.bg + ';color:' + s.c + '">' + s.l + '</div>';
+  }).join('<div style="width:2px;flex-shrink:0"></div>');
+
+  var blocksHtml = '';
+  t.blocks.forEach(function(b, i) {
+    var dets = b.details.map(function(d) {
+      var tag = d.r ? '<span class="tag-right">pé direito</span>' : '';
+      return '<div class="drow"><div class="dot' + (d.r ? ' dot-right' : '') + '"></div><p>' + d.t + tag + '</p></div>';
+    }).join('');
+
+    var lnk  = b.link ? '<div class="lrow"><span class="lrow-icon">▶</span><a href="' + b.link.u + '" target="_blank">' + b.link.l + '</a></div>' : '';
+    var tip  = b.tip  ? '<div class="tip"><strong>Dica:</strong> ' + b.tip + '</div>' : '';
+    var prog = b.prog ? '<div class="prog-box"><strong>Progressão:</strong> ' + b.prog + '</div>' : '';
+
+    blocksHtml +=
+      '<div class="block">' +
+        '<div class="block-hd" onclick="tog(\'' + key + '\',' + i + ')">' +
+          '<div class="bicon" style="background:' + b.bg + ';color:' + b.fg + '">' + b.em + '</div>' +
+          '<div class="bmeta"><div class="btitle">' + b.title + '</div><div class="bdesc">' + b.desc + '</div></div>' +
+          '<span class="btime">' + b.time + '</span>' +
+          '<span class="chev" id="chev-' + key + '-' + i + '">▼</span>' +
+        '</div>' +
+        '<div class="block-body" id="body-' + key + '-' + i + '">' +
+          '<div class="block-inner">' + dets + lnk + tip + prog + '</div>' +
+        '</div>' +
+      '</div>';
+  });
+
+  tab.innerHTML =
+    '<div class="t-header">' +
+      '<div class="badge-row">' + bdg + '</div>' +
+      '<div class="t-title">' + t.title + '</div>' +
+      '<div class="t-sub">' + t.sub + '</div>' +
+      '<div class="info-box ' + t.info.type + '" style="margin-top:12px">' + t.info.text + '</div>' +
+    '</div>' +
+    '<div class="tl">' + tls + '</div>' +
+    '<div>' + blocksHtml + '</div>' +
+    '<div class="total"><span>Duração total estimada</span><span>' + t.total + '</span></div>';
+}
+
+['a','b','c'].forEach(buildTab);
+
+// ─── EVOLUÇÃO ─────────────────────────────────────────────────────────────────
+
+var TESTES = [
+  { id:'passe_pd',    label:'Passes certeiros em 30 s (pé direito)', unit:'passes', icon:'⚡', desc:'Passe na parede a 3 m — conta só os que voltam controlados.' },
+  { id:'controle_pd', label:'Toques de sola contínuos sem perder a bola', unit:'toques', icon:'🎯', desc:'Toque de sola com o pé direito — conta quantos faz sem erro.' },
+  { id:'drible_pd',   label:'Zigue-zague (5 cones a 1 m) em segundos', unit:'seg', icon:'🌀', desc:'Menor tempo = melhor. Conduza só com o pé direito.' },
+  { id:'chute_pd',    label:'Chutes no alvo em 10 tentativas', unit:'/ 10', icon:'🥅', desc:'De 12 m — conta quantos acertam o gol (qualquer parte).' }
+];
+
+// Armazenamento em memória (compatível com arquivo local e GitHub Pages)
+var avaliacoes = [];
+
+function buildEval() {
+  var tab = document.getElementById('tab-eval');
+
+  // ── Formulário de entrada ──
+  var inputsHtml = TESTES.map(function(t) {
+    return '<div class="eval-test">' +
+      '<div class="eval-test-head">' +
+        '<span style="font-size:16px">' + t.icon + '</span>' +
+        '<span class="eval-test-title">' + t.label + '</span>' +
+        '<span class="eval-test-unit">(' + t.unit + ')</span>' +
+      '</div>' +
+      '<div class="eval-test-desc">' + t.desc + '</div>' +
+      '<input class="eval-input" id="inp_' + t.id + '" type="number" min="0" placeholder="resultado">' +
+    '</div>';
+  }).join('');
+
+  // ── Histórico ──
+  var rows = avaliacoes.length === 0
+    ? '<tr><td colspan="' + (TESTES.length + 3) + '" class="hist-empty">Nenhuma avaliação registrada ainda.</td></tr>'
+    : avaliacoes.slice().reverse().map(function(entry, ri) {
+        var realIdx = avaliacoes.length - 1 - ri;
+        var cells = TESTES.map(function(t) {
+          var v = entry.scores[t.id];
+          return '<td class="mono">' + (v !== undefined && v !== '' ? v : '—') + '</td>';
+        }).join('');
+        return '<tr>' +
+          '<td class="meta">' + entry.date + '</td>' +
+          '<td class="meta">' + entry.semana + '</td>' +
+          cells +
+          '<td style="text-align:center"><button class="del-btn" onclick="delEntry(' + realIdx + ')">✕</button></td>' +
+        '</tr>';
+      }).join('');
+
+  var thCells = TESTES.map(function(t) {
+    return '<th class="center">' + t.icon + '</th>';
+  }).join('');
+
+  tab.innerHTML =
+    '<div class="t-header">' +
+      '<div class="badge-row"><span class="badge b-green">Autoavaliação</span><span class="badge b-default">A cada 2 semanas</span></div>' +
+      '<div class="t-title">Registro de evolução</div>' +
+      '<div class="t-sub">Faça o teste antes do Treino A. Compare os resultados a cada 2 semanas para ver o progresso real do pé direito.</div>' +
+      '<div class="info-box info-blue" style="margin-top:12px"><strong>Como usar:</strong> preencha os resultados de cada teste e clique em Salvar. O histórico fica na sessão atual.</div>' +
+    '</div>' +
+
+    '<div class="eval-section">' +
+      '<div class="eval-label">Nova avaliação</div>' +
+      '<div class="eval-row">' +
+        '<div><label>Data</label><input class="eval-input" id="inp_date" type="date"></div>' +
+        '<div><label>Semana do ciclo</label>' +
+          '<select class="eval-input" id="inp_semana">' +
+            '<option>Semana 1</option><option>Semana 2</option><option>Semana 3</option>' +
+            '<option>Semana 4</option><option>Semana 5</option><option>Semana 6</option>' +
+          '</select>' +
+        '</div>' +
+      '</div>' +
+      inputsHtml +
+      '<button class="eval-save-btn" onclick="saveEntry()">Salvar avaliação</button>' +
+    '</div>' +
+
+    '<div class="eval-section">' +
+      '<div class="eval-label">Histórico</div>' +
+      '<div class="hist-wrap">' +
+        '<table class="hist-table">' +
+          '<thead><tr><th>Data</th><th>Semana</th>' + thCells + '<th></th></tr></thead>' +
+          '<tbody>' + rows + '</tbody>' +
+        '</table>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="total"><span>Frequência recomendada</span><span>A cada 2 semanas</span></div>';
+
+  // Data de hoje como padrão
+  var d = document.getElementById('inp_date');
+  if (d && !d.value) {
+    d.value = new Date().toISOString().split('T')[0];
+  }
+}
+
+window.saveEntry = function() {
+  var scores = {};
+  TESTES.forEach(function(t) {
+    var el = document.getElementById('inp_' + t.id);
+    scores[t.id] = el ? el.value : '';
+  });
+  var dateEl   = document.getElementById('inp_date');
+  var semanaEl = document.getElementById('inp_semana');
+  avaliacoes.push({
+    date:   dateEl   ? dateEl.value   : '—',
+    semana: semanaEl ? semanaEl.value : '—',
+    scores: scores
+  });
+  buildEval();
+};
+
+window.delEntry = function(idx) {
+  avaliacoes.splice(idx, 1);
+  buildEval();
+};
+
+buildEval();
+
+// ─── NAVEGAÇÃO ────────────────────────────────────────────────────────────────
+
+var TAB_ORDER = ['week','a','b','c','eval'];
+
+function switchTab(k) {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+  var tabEl = document.getElementById('tab-' + k);
+  if (tabEl) tabEl.classList.add('active');
+  var idx = TAB_ORDER.indexOf(k);
+  var btns = document.querySelectorAll('.nav-btn');
+  if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
+}
+
+function tog(key, i) {
+  var body = document.getElementById('body-' + key + '-' + i);
+  var chev = document.getElementById('chev-' + key + '-' + i);
+  if (!body || !chev) return;
+  var open = body.classList.toggle('open');
+  chev.style.transform = open ? 'rotate(180deg)' : '';
+}
+</script>
+</body>
+</html>
