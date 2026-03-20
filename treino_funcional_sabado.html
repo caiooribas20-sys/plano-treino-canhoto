@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treino Funcional — Sábado</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #0A0C10;
+    --surface:    #12151B;
+    --surface2:   #191D26;
+    --surface3:   #1F2430;
+    --border:     rgba(255,255,255,0.06);
+    --border2:    rgba(255,255,255,0.11);
+    --text:       #E8EAF0;
+    --text2:      #7A8090;
+    --text3:      #454A58;
+    --gold:       #F0B429;
+    --gold-dim:   rgba(240,180,41,0.12);
+    --cyan:       #38BDF8;
+    --cyan-dim:   rgba(56,189,248,0.10);
+    --red:        #F87171;
+    --red-dim:    rgba(248,113,113,0.12);
+    --green:      #4ADE80;
+    --green-dim:  rgba(74,222,128,0.10);
+    --violet:     #A78BFA;
+    --violet-dim: rgba(167,139,250,0.10);
+    --orange:     #FB923C;
+    --orange-dim: rgba(251,146,60,0.12);
+    --slate:      #94A3B8;
+    --slate-dim:  rgba(148,163,184,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 620px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 32px 96px rgba(0,0,0,0.7);
+    animation: fadeUp .4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(18px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 1.5rem 1.5rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(240,180,41,0.05) 0%, transparent 60%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: 'FORÇA';
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 80px;
+    font-weight: 700;
+    color: rgba(240,180,41,0.04);
+    letter-spacing: -2px;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .hero-sub {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+    max-width: 420px;
+  }
+
+  .badge-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 12px; }
+  .badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 99px;
+    border: 1px solid;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .b-gold    { background: var(--gold-dim);   color: var(--gold);   border-color: rgba(240,180,41,0.3); }
+  .b-cyan    { background: var(--cyan-dim);   color: var(--cyan);   border-color: rgba(56,189,248,0.25); }
+  .b-red     { background: var(--red-dim);    color: var(--red);    border-color: rgba(248,113,113,0.3); }
+  .b-green   { background: var(--green-dim);  color: var(--green);  border-color: rgba(74,222,128,0.25); }
+  .b-violet  { background: var(--violet-dim); color: var(--violet); border-color: rgba(167,139,250,0.25); }
+  .b-orange  { background: var(--orange-dim); color: var(--orange); border-color: rgba(251,146,60,0.3); }
+  .b-slate   { background: var(--slate-dim);  color: var(--slate);  border-color: rgba(148,163,184,0.2); }
+  .b-default { background: var(--surface2);   color: var(--text2);  border-color: var(--border2); }
+
+  /* ── NAV ── */
+  .nav {
+    display: flex;
+    gap: 4px;
+    padding: 10px 10px 0;
+    background: var(--surface);
+    flex-wrap: wrap;
+  }
+  .nav-btn {
+    flex: 1;
+    min-width: 55px;
+    padding: 7px 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all .18s;
+    text-align: center;
+  }
+  .nav-btn:hover  { color: var(--text); border-color: var(--border2); }
+  .nav-btn.active { background: var(--surface2); color: var(--text); border-color: var(--border2); }
+
+  /* ── TABS ── */
+  .tab { display: none; }
+  .tab.active { display: block; animation: fadeIn .2s ease both; }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+  /* ── PRINCÍPIOS ── */
+  .principles { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 10px;
+  }
+  .principle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .principle-card {
+    padding: 10px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    transition: border-color .18s;
+  }
+  .principle-card:hover { border-color: var(--border2); }
+  .pc-head { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; }
+  .pc-icon { font-size: 14px; }
+  .pc-title { font-size: 12px; font-weight: 600; }
+  .pc-body { font-size: 11.5px; color: var(--text2); line-height: 1.5; }
+
+  .formula-box {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: var(--gold-dim);
+    border: 1px solid rgba(240,180,41,0.2);
+    border-radius: 8px;
+    font-size: 12.5px;
+    color: #F5D080;
+    line-height: 1.6;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  /* ── ESTRUTURA SESSÃO ── */
+  .session-table { width: 100%; border-collapse: collapse; }
+  .session-table th {
+    padding: 6px 12px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border2);
+  }
+  .session-table td {
+    padding: 8px 12px;
+    font-size: 12.5px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .session-table tr:last-child td { border-bottom: none; }
+  .order-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 1px 7px;
+    border-radius: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    color: var(--text2);
+    white-space: nowrap;
+  }
+
+  /* ── TIMELINE ── */
+  .tl {
+    display: flex;
+    gap: 3px;
+    padding: 10px 1.25rem;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+    scrollbar-width: none;
+  }
+  .tl::-webkit-scrollbar { display: none; }
+  .tl-seg {
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 500;
+    white-space: nowrap;
+    border-radius: 5px;
+    padding: 0 8px;
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+
+  /* ── BLOCOS TREINO ── */
+  .block { border-bottom: 1px solid var(--border); }
+  .block:last-of-type { border-bottom: none; }
+  .block-hd {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px 1.5rem;
+    cursor: pointer;
+    transition: background .15s;
+    user-select: none;
+  }
+  .block-hd:hover { background: var(--surface2); }
+  .bicon {
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .bmeta { flex:1; min-width:0; }
+  .btitle { font-size: 13px; font-weight: 600; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bdesc  { font-size: 11.5px; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .btime {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 5px; padding: 2px 8px;
+    white-space: nowrap; color: var(--text2); flex-shrink: 0;
+  }
+  .chev { font-size: 9px; color: var(--text3); transition: transform .22s ease; margin-left: 3px; flex-shrink: 0; }
+
+  .block-body { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+  .block-body.open { max-height: 1000px; }
+  .block-inner { padding: 0 1.5rem 16px; border-top: 1px solid var(--border); }
+
+  /* ── EXERCÍCIO ROW ── */
+  .ex-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 8px;
+    align-items: start;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .ex-row:last-of-type { border-bottom: none; }
+  .ex-name { font-size: 13px; font-weight: 500; line-height: 1.4; }
+  .ex-note { font-size: 11px; color: var(--text2); margin-top: 2px; line-height: 1.4; }
+  .ex-vol {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    color: var(--text2);
+    white-space: nowrap;
+    text-align: right;
+  }
+  .ex-rest {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    white-space: nowrap;
+    text-align: right;
+    padding-top: 2px;
+  }
+
+  .prog-pill {
+    display: inline-block;
+    font-size: 10px; font-weight: 600;
+    padding: 1px 7px; border-radius: 4px;
+    background: var(--green-dim);
+    color: var(--green);
+    border: 1px solid rgba(74,222,128,0.25);
+    margin-top: 4px;
+    letter-spacing: 0.02em;
+  }
+  .warn-pill {
+    display: inline-block;
+    font-size: 10px; font-weight: 600;
+    padding: 1px 7px; border-radius: 4px;
+    background: var(--orange-dim);
+    color: var(--orange);
+    border: 1px solid rgba(251,146,60,0.25);
+    margin-top: 4px;
+    letter-spacing: 0.02em;
+  }
+
+  .tip {
+    margin-top: 10px;
+    padding: 9px 12px;
+    background: var(--gold-dim);
+    border-left: 2px solid var(--gold);
+    border-radius: 0 7px 7px 0;
+    font-size: 12px; line-height: 1.6;
+    color: #F5D080;
+  }
+  .tip strong { font-weight: 600; color: var(--gold); }
+
+  .circuit-box {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--cyan-dim);
+    border: 1px solid rgba(56,189,248,0.2);
+    border-radius: 8px;
+    font-size: 12px; line-height: 1.6;
+    color: #A5DCFA;
+  }
+  .circuit-box strong { color: var(--cyan); font-weight: 600; }
+
+  /* ── INFO BOX ── */
+  .info-box {
+    padding: 10px 13px; border-radius: 8px;
+    font-size: 12.5px; line-height: 1.65; border: 1px solid;
+    margin-top: 12px;
+  }
+  .info-gold   { background: var(--gold-dim);   color: #F5D080; border-color: rgba(240,180,41,0.2); }
+  .info-cyan   { background: var(--cyan-dim);   color: #A5DCFA; border-color: rgba(56,189,248,0.2); }
+  .info-red    { background: var(--red-dim);    color: #FCA5A5; border-color: rgba(248,113,113,0.2); }
+  .info-green  { background: var(--green-dim);  color: #86EFAC; border-color: rgba(74,222,128,0.2); }
+  .info-box strong { font-weight: 600; }
+
+  /* ── CABEÇALHO ABA ── */
+  .t-header {
+    padding: 1.25rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .t-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.01em; }
+  .t-sub   { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  /* ── TOTAL ── */
+  .total {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 1.5rem;
+    background: var(--surface2);
+    border-top: 1px solid var(--border);
+  }
+  .total span:first-child { font-size: 12.5px; color: var(--text2); }
+  .total span:last-child  { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; color: var(--gold); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Treino funcional · Sábado</div>
+    <div class="hero-title">Força + Potência Aplicada</div>
+    <div class="hero-sub">1 sessão por semana. 3 variações de treino para rodar ao longo do mês. Foco em força explosiva, prevenção e resistência específica.</div>
+    <div class="badge-row">
+      <span class="badge b-gold">1× / semana</span>
+      <span class="badge b-cyan">Sábado</span>
+      <span class="badge b-red">Alta intensidade</span>
+      <span class="badge b-green">Prevenção integrada</span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <button class="nav-btn active" onclick="switchTab('principios')">Princípios</button>
+    <button class="nav-btn" onclick="switchTab('fa')">A · Força</button>
+    <button class="nav-btn" onclick="switchTab('fb')">B · Potência</button>
+    <button class="nav-btn" onclick="switchTab('fc')">C · RSA</button>
+    <button class="nav-btn" onclick="switchTab('prev')">🛡 Prevenção</button>
+  </div>
+
+  <!-- PRINCÍPIOS -->
+  <div id="tab-principios" class="tab active">
+    <div class="principles">
+      <div class="section-label">Os 5 princípios</div>
+      <div class="principle-grid">
+        <div class="principle-card">
+          <div class="pc-head"><span class="pc-icon">💥</span><span class="pc-title">Intensidade</span></div>
+          <div class="pc-body">Treinar perto da falha muscular — RIR 0–2. O esforço em cada série importa mais que a quantidade.</div>
+        </div>
+        <div class="principle-card">
+          <div class="pc-head"><span class="pc-icon">📈</span><span class="pc-title">Progressão</span></div>
+          <div class="pc-body">Toda semana aumente UMA variável: carga (+2–5 kg), reps (+1–2), ou cadência mais lenta no excêntrico.</div>
+        </div>
+        <div class="principle-card">
+          <div class="pc-head"><span class="pc-icon">🏗️</span><span class="pc-title">Multiarticulares</span></div>
+          <div class="pc-body">Priorize movimentos grandes — puxadas, remadas, agachamentos, supinos. Isoladores são complemento.</div>
+        </div>
+        <div class="principle-card">
+          <div class="pc-head"><span class="pc-icon">⚖️</span><span class="pc-title">Volume eficiente</span></div>
+          <div class="pc-body">8–12 séries totais por grupamento na semana já gera ganho de força. Mais não é sempre melhor.</div>
+        </div>
+      </div>
+      <div class="principle-card" style="margin-top:8px">
+        <div class="pc-head"><span class="pc-icon">😴</span><span class="pc-title">Recuperação é treino</span></div>
+        <div class="pc-body">Dormir bem e comer o suficiente é o que transforma treino em força. Sem isso, o esforço não vira adaptação.</div>
+      </div>
+      <div class="formula-box" style="margin-top:12px">
+        ⚡ Poucos exercícios + alta intensidade + progressão semanal
+      </div>
+    </div>
+
+    <div style="padding:1rem 1.5rem;border-bottom:1px solid var(--border)">
+      <div class="section-label">Estrutura ideal da sessão</div>
+      <table class="session-table">
+        <thead>
+          <tr>
+            <th>Ordem</th>
+            <th>Tipo</th>
+            <th>Foco</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="order-badge">1º</span></td>
+            <td style="font-weight:600">Multiarticular pesado</td>
+            <td style="color:var(--text2)">Ganho de força</td>
+          </tr>
+          <tr>
+            <td><span class="order-badge">2º</span></td>
+            <td style="font-weight:600">Multiarticular secundário</td>
+            <td style="color:var(--text2)">Técnica e estabilidade</td>
+          </tr>
+          <tr>
+            <td><span class="order-badge">3º</span></td>
+            <td style="font-weight:600">Isoladores</td>
+            <td style="color:var(--text2)">Reforço e prevenção de lesão</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="padding:1rem 1.5rem">
+      <div class="section-label">Monitoramento semanal</div>
+      <div class="info-box info-cyan">
+        <strong>RPE / sRPE:</strong> use escala de 1–10 para controlar carga semanal. Progressão: aumentar carga 2–5% por semana ou +1 série a cada 7–10 dias. Se a técnica cair, reduza a carga — sem exceção.
+      </div>
+      <div class="info-box info-red" style="margin-top:8px">
+        <strong>Dor lombar / isquiotibiais:</strong> se aparecer, troque Deadlift por Trap-bar ou RDL com menos carga. Monitore dor local pré e pós sessão.
+      </div>
+    </div>
+
+    <div class="total"><span>Frequência semanal</span><span>1× · Sábado</span></div>
+  </div>
+
+  <!-- FUNCIONAL A -->
+  <div id="tab-fa" class="tab"></div>
+
+  <!-- FUNCIONAL B -->
+  <div id="tab-fb" class="tab"></div>
+
+  <!-- FUNCIONAL C -->
+  <div id="tab-fc" class="tab"></div>
+
+  <!-- PREVENÇÃO -->
+  <div id="tab-prev" class="tab">
+    <div class="t-header">
+      <div class="badge-row" style="margin-bottom:10px">
+        <span class="badge b-green">Prevenção</span>
+        <span class="badge b-default">Integrada ao treino</span>
+      </div>
+      <div class="t-title">Dicas de Prevenção</div>
+      <div class="t-sub">Pequenos hábitos semanais que protegem isquiotibiais, ombros e tornozelos a longo prazo.</div>
+    </div>
+    <div style="padding:1rem 1.5rem;display:flex;flex-direction:column;gap:8px">
+      <div class="principle-card">
+        <div class="pc-head"><span class="pc-icon">🦵</span><span class="pc-title">Isquiotibiais</span></div>
+        <div class="pc-body">Nordic 1×/semana + Single-leg RDL 1×/semana = base sólida para prevenir lesões de posterior de coxa.</div>
+      </div>
+      <div class="principle-card">
+        <div class="pc-head"><span class="pc-icon">🫁</span><span class="pc-title">Postura e ombros</span></div>
+        <div class="pc-body">Face pulls + retração escapular 2×/semana reduz risco de lesão por desequilíbrio postural.</div>
+      </div>
+      <div class="principle-card">
+        <div class="pc-head"><span class="pc-icon">🦶</span><span class="pc-title">Propriocepção</span></div>
+        <div class="pc-body">1 sessão semanal de propriocepção — single-leg balance, landings controlados — protege tornozelos e joelhos.</div>
+      </div>
+      <div class="principle-card">
+        <div class="pc-head"><span class="pc-icon">🍽️</span><span class="pc-title">Recuperação</span></div>
+        <div class="pc-body">Priorize sono, hidratação e nutrição nos dias de treino pesado. Sem recuperação, não há adaptação.</div>
+      </div>
+    </div>
+    <div class="total"><span>Aplicar</span><span>Toda semana</span></div>
+  </div>
+
+</div><!-- .card -->
+
+<script>
+var TAB_ORDER = ['principios','fa','fb','fc','prev'];
+
+var treinos = {
+  fa: {
+    label: 'FUNCIONAL A',
+    title: 'Treino A — Força → Potência Aplicada',
+    sub: 'Baseado em equipamento. Foco em força explosiva, prevenção de joelho e circuito metabólico.',
+    info: { type:'info-gold', text:'<strong>Foco desta sessão:</strong> construir base de força com transferência direta para explosão e sprint. Registre velocidade média nas séries do Deadlift e RPE da sessão.' },
+    tl: [
+      { l:"Aquec. 8'", bg:'rgba(240,180,41,0.18)', c:'#F0B429' },
+      { l:"Força 10'", bg:'rgba(56,189,248,0.15)', c:'#38BDF8' },
+      { l:"Prevenção 8'", bg:'rgba(74,222,128,0.15)', c:'#4ADE80' },
+      { l:"Potência 12'", bg:'rgba(167,139,250,0.15)', c:'#A78BFA' },
+      { l:"Circuito 12'", bg:'rgba(251,146,60,0.18)', c:'#FB923C' },
+      { l:"Core 5'", bg:'rgba(248,113,113,0.15)', c:'#F87171' }
+    ],
+    blocks: [
+      { em:'🔥', bg:'rgba(240,180,41,0.12)', fg:'#F0B429',
+        title:'Aquecimento', desc:'FIFA11+ parcial + mobilidade', time:'6–8 min',
+        exs:[
+          { name:'FIFA11+ parcial', vol:'1 round', rest:'—', note:'Foco em mobilidade de quadril e tornozelo', prog:null, warn:null }
+        ],
+        tip:'Não pule o aquecimento em dia de carga alta. O FIFA11+ reduz risco de lesão em até 50%.',
+        circuit:null },
+
+      { em:'⚡', bg:'rgba(56,189,248,0.12)', fg:'#38BDF8',
+        title:'Força-Potência', desc:'Barbell Deadlift Dinâmico', time:'10–12 min',
+        exs:[
+          { name:'Barbell Deadlift Dinâmico', vol:'3 × 4', rest:'2–3 min', note:'VBT: manter velocidade de execução explosiva. Se cair, reduza carga.', prog:'Aumentar carga 2–5% se velocidade mantida', warn:'Substituto p/ joelho: Goblet Dynamic' }
+        ],
+        tip:'Foco na fase concêntrica explosiva. O peso sobe rápido, desce controlado (2–3 s).',
+        circuit:null },
+
+      { em:'🛡️', bg:'rgba(74,222,128,0.12)', fg:'#4ADE80',
+        title:'Prevenção', desc:'Mini-Copenhagen — isquiotibiais e adutores', time:'8 min',
+        exs:[
+          { name:'Mini-Copenhagen', vol:'2 × 8–10 / perna', rest:'60 s', note:'Isquiotibiais e adutores. Execute devagar, sem compensar com quadril.', prog:'Aumentar reps ou tempo de isometria', warn:'Substituto: Band Clams' }
+        ],
+        tip:'Dor leve no adutor é normal. Dor aguda no joelho = pare e troque.',
+        circuit:null },
+
+      { em:'🚀', bg:'rgba(167,139,250,0.12)', fg:'#A78BFA',
+        title:'Sprint Resistido + Rotacional', desc:'Step-up explosivo + Med-ball rotational toss', time:'12 min',
+        exs:[
+          { name:'Step-up Explosivo', vol:'3 × 4 / perna', rest:'90–120 s', note:'Subida explosiva, descida controlada. Mantenha velocidade entre séries.', prog:'Aumentar carga progressiva', warn:'Substituto p/ joelho: Treadmill sprint submáx' },
+          { name:'Med-ball Rotational Toss', vol:'3 × 6–8 / lado', rest:'60–90 s', note:'Rotação parte do quadril, não só dos braços. Solte com intenção.', prog:'Aumentar carga se técnica ok', warn:null },
+          { name:'Single-leg RDL com toque', vol:'3 × 6–8 / perna', rest:'60–90 s', note:'Estabilidade dinâmica. Toque suave no chão com o haltere.', prog:'Priorizar simetria entre lados', warn:'Substituto: Step-up controlado' }
+        ],
+        tip:null,
+        circuit:null },
+
+      { em:'🔄', bg:'rgba(251,146,60,0.12)', fg:'#FB923C',
+        title:'Circuito Metabólico', desc:'KB Swing + Remada + Farmer Carry — 3 rondas', time:'12 min',
+        exs:[],
+        tip:null,
+        circuit:'<strong>3 rondas:</strong> KB Swing (40 s on) → Remada Curvada com Barra (40 s on) → Farmer Carry (40 s on) · 20 s off entre estações · 60–90 s entre rondas · <strong>Progressão:</strong> aumentar rondas se RPE ≤ 7' },
+
+      { em:'🧱', bg:'rgba(248,113,113,0.12)', fg:'#F87171',
+        title:'Core', desc:'Pallof Press + Prancha', time:'5 min',
+        exs:[
+          { name:'Pallof Press', vol:'2 × 10–12', rest:'45 s', note:'Anti-rotação. Mantenha o core tenso durante todo o movimento.', prog:null, warn:null },
+          { name:'Prancha', vol:'2 × 45 s', rest:'30 s', note:'Quadril neutro, sem elevar o bumbum. Respire normalmente.', prog:null, warn:null }
+        ],
+        tip:null,
+        circuit:null }
+    ],
+    total:'≈ 55–65 min'
+  },
+
+  fb: {
+    label: 'FUNCIONAL B',
+    title: 'Treino B — Potência com Implementos',
+    sub: 'Foco em explosão, empurrar e puxar. Sessão mais curta e intensa.',
+    info: { type:'info-cyan', text:'<strong>Foco desta sessão:</strong> potência com implementos variados. Menos volume, mais qualidade de execução. Cada rep deve ser executada com intenção máxima.' },
+    tl: [
+      { l:"Aquec. 8'", bg:'rgba(240,180,41,0.18)', c:'#F0B429' },
+      { l:"Med-ball 10'", bg:'rgba(56,189,248,0.15)', c:'#38BDF8' },
+      { l:"Força baixo 10'", bg:'rgba(167,139,250,0.15)', c:'#A78BFA' },
+      { l:"Força cima 10'", bg:'rgba(74,222,128,0.15)', c:'#4ADE80' },
+      { l:"Ombros 8'", bg:'rgba(251,146,60,0.18)', c:'#FB923C' },
+      { l:"Core 5'", bg:'rgba(248,113,113,0.15)', c:'#F87171' }
+    ],
+    blocks: [
+      { em:'🔥', bg:'rgba(240,180,41,0.12)', fg:'#F0B429',
+        title:'Aquecimento', desc:'FIFA11+ completo', time:'6–8 min',
+        exs:[
+          { name:'FIFA11+', vol:'1 round completo', rest:'—', note:'Não pule etapas. Inclua os saltos e mudanças de direção.', prog:null, warn:null }
+        ],
+        tip:null, circuit:null },
+
+      { em:'💣', bg:'rgba(56,189,248,0.12)', fg:'#38BDF8',
+        title:'Med-ball Throws', desc:'Explosão rotacional e frontal', time:'10 min',
+        exs:[
+          { name:'Med-ball Rotational Throw', vol:'3 × 6–8 / lado', rest:'60–90 s', note:'Jogue com intenção máxima na parede ou com parceiro. Rotação vem do quadril.', prog:'Aumentar carga ou reps', warn:null }
+        ],
+        tip:'Qualidade > quantidade. Descanso completo entre lados.',
+        circuit:null },
+
+      { em:'🏋️', bg:'rgba(167,139,250,0.12)', fg:'#A78BFA',
+        title:'Força Membros Inferiores', desc:'Front Box Squat — meia amplitude', time:'10 min',
+        exs:[
+          { name:'Front Box Squat (meia amplitude)', vol:'3 × 4', rest:'2–3 min', note:'Explosivo na subida, controlado na descida. Caixa ajusta amplitude para joelho.', prog:'Aumentar carga 2–5% / semana', warn:null }
+        ],
+        tip:'Meia amplitude reduz stress no joelho sem perder estímulo de força.',
+        circuit:null },
+
+      { em:'⬆️', bg:'rgba(74,222,128,0.12)', fg:'#4ADE80',
+        title:'Força Membros Superiores', desc:'Push Press explosivo ou DB Snatch unilateral', time:'10 min',
+        exs:[
+          { name:'Push Press Explosivo', vol:'3 × 4', rest:'90–120 s', note:'Use o impulso das pernas para iniciar o movimento. Bloqueio total no topo.', prog:'Aumentar carga se técnica estável', warn:null },
+          { name:'(alternativa) Dumbbell Snatch Unilateral', vol:'3 × 4 / lado', rest:'90 s', note:'Movimento explosivo do chão ao topo. Controle na descida.', prog:'Aumentar carga progressiva', warn:null },
+          { name:'Flexão de Braço', vol:'2 × 12', rest:'45 s', note:'Cadência 2-0-1. Full range.', prog:null, warn:null }
+        ],
+        tip:null, circuit:null },
+
+      { em:'💪', bg:'rgba(251,146,60,0.12)', fg:'#FB923C',
+        title:'Ombros', desc:'Elevação lateral + Puxada Frontal', time:'8 min',
+        exs:[
+          { name:'Elevação Lateral com Halter ou Cabo', vol:'3 × 12', rest:'45 s', note:'Cotovelos levemente dobrados. Não use impulso do tronco.', prog:null, warn:null },
+          { name:'Puxada Frontal (alternativa)', vol:'3 × 12', rest:'45 s', note:'Substituição se não tiver equipamento de ombro disponível.', prog:null, warn:null }
+        ],
+        tip:'Ombros são frequentemente negligenciados em atletas de campo. Vale incluir sempre.',
+        circuit:null },
+
+      { em:'🧱', bg:'rgba(248,113,113,0.12)', fg:'#F87171',
+        title:'Core Integrado', desc:'Cable Anti-rotation + Farmer Carry + Prancha', time:'5 min',
+        exs:[
+          { name:'Cable Anti-rotation (Pallof)', vol:'2 × 10', rest:'45 s', note:'Core resistindo à rotação. Posição estável.', prog:null, warn:null },
+          { name:'Farmer Carry', vol:'2 × 20 m', rest:'45 s', note:'Peso pesado, postura ereta, passos controlados.', prog:null, warn:null },
+          { name:'Prancha', vol:'2 × 45 s', rest:'30 s', note:null, prog:null, warn:null }
+        ],
+        tip:null, circuit:null }
+    ],
+    total:'≈ 55–60 min'
+  },
+
+  fc: {
+    label: 'FUNCIONAL C',
+    title: 'Treino C — Potência-Resistência / RSA',
+    sub: 'Repeated Sprint Ability. Sessão de alta densidade metabólica com manutenção de qualidade.',
+    info: { type:'info-red', text:'<strong>Atenção:</strong> esta é a sessão mais intensa das três. Só use quando bem recuperado. Reduza volume se RPE da semana estiver alto ou se sentir dor articular.' },
+    tl: [
+      { l:"Aquec. 8'", bg:'rgba(240,180,41,0.18)', c:'#F0B429' },
+      { l:"Força-pot. 10'", bg:'rgba(56,189,248,0.15)', c:'#38BDF8' },
+      { l:"Plyo 10'", bg:'rgba(167,139,250,0.15)', c:'#A78BFA' },
+      { l:"Força braço 8'", bg:'rgba(74,222,128,0.15)', c:'#4ADE80' },
+      { l:"Circuito 12'", bg:'rgba(251,146,60,0.18)', c:'#FB923C' },
+      { l:"Core/Bal. 7'", bg:'rgba(248,113,113,0.15)', c:'#F87171' }
+    ],
+    blocks: [
+      { em:'🔥', bg:'rgba(240,180,41,0.12)', fg:'#F0B429',
+        title:'Aquecimento', desc:'FIFA11+ + técnica de corrida na esteira', time:'6–8 min',
+        exs:[
+          { name:'FIFA11+ + técnica de corrida', vol:'1 round', rest:'—', note:'Inclua drills de corrida: skipping, corrida lateral, aceleração curta.', prog:null, warn:null }
+        ],
+        tip:null, circuit:null },
+
+      { em:'⚡', bg:'rgba(56,189,248,0.12)', fg:'#38BDF8',
+        title:'Strength-Power Micro', desc:'KB Swings + Flexão Pliométrica', time:'10 min',
+        exs:[
+          { name:'KB Swings', vol:'2 × 6', rest:'90–120 s', note:'VBT: alvo 0.6–0.8 m/s. Quadril atrás, não agachamento.', prog:'Aumentar carga se velocidade mantida', warn:null },
+          { name:'Plyometric Push-up (flexão com impulso)', vol:'3 × 6', rest:'90 s', note:'Palmas saem do chão na subida. Aterrissagem suave.', prog:null, warn:null }
+        ],
+        tip:'Descanse completamente entre séries — o objetivo é qualidade e velocidade, não fadiga.',
+        circuit:null },
+
+      { em:'🦘', bg:'rgba(167,139,250,0.12)', fg:'#A78BFA',
+        title:'Low-Impact Plyo', desc:'Plio ou Med-ball no Trampolim', time:'10 min',
+        exs:[
+          { name:'Plyometria ou Med-ball no Trampolim', vol:'3–4 × 6–8 reps', rest:'90–120 s', note:'Impacto reduzido. Foco em reatividade e tempo de contato curto.', prog:null, warn:'Se dolorido: substituir por sled empurrado' },
+          { name:'Rosca Direta com Barra (Explosivo)', vol:'3 × 4', rest:'90 s', note:'Fase concêntrica máxima, excêntrico controlado 3 s.', prog:null, warn:null }
+        ],
+        tip:'O trampolim reduz impacto articular mantendo o estímulo neural.',
+        circuit:null },
+
+      { em:'🔄', bg:'rgba(251,146,60,0.12)', fg:'#FB923C',
+        title:'Circuito de Condicionamento', desc:'Burpees + Step-ups + Cable Chops — 3 rondas', time:'12 min',
+        exs:[],
+        tip:null,
+        circuit:'<strong>3 rondas:</strong> Burpees (30 s) → Step-ups (30 s) → Cable Chops (30 s) · 60–90 s de descanso entre rondas · <strong>Progressão:</strong> aumentar rondas ou intensidade se tolerado' },
+
+      { em:'🧱', bg:'rgba(248,113,113,0.12)', fg:'#F87171',
+        title:'Core + Equilíbrio', desc:'Single-leg balance + Pallof + Flexões', time:'7 min',
+        exs:[
+          { name:'Single-leg Balance + Pallof', vol:'3 × 30 s / lado', rest:'45–60 s', note:'Olhos abertos primeiro, fechados depois se estável.', prog:null, warn:null },
+          { name:'Flexão Inclinada', vol:'3 × 10', rest:'30 s', note:'Mãos elevadas — reduz carga para foco em estabilização.', prog:null, warn:null },
+          { name:'Flexão de Joelho', vol:'3 × 10', rest:'30 s', note:'Full range, cotovelos alinhados com ombros.', prog:null, warn:null }
+        ],
+        tip:null, circuit:null }
+    ],
+    total:'≈ 55–65 min'
+  }
+};
+
+// ─── BUILD TREINOS ────────────────────────────────────────────────────────────
+
+function buildTreino(key) {
+  var t = treinos[key];
+  var tab = document.getElementById('tab-' + key);
+
+  var tls = t.tl.map(function(s) {
+    return '<div class="tl-seg" style="background:' + s.bg + ';color:' + s.c + '">' + s.l + '</div>';
+  }).join('<div style="width:2px;flex-shrink:0"></div>');
+
+  var blocksHtml = '';
+  t.blocks.forEach(function(b, i) {
+    // exercícios
+    var exsHtml = b.exs.map(function(ex) {
+      var noteHtml = ex.note ? '<div class="ex-note">' + ex.note + '</div>' : '';
+      var progHtml = ex.prog ? '<div><span class="prog-pill">↑ ' + ex.prog + '</span></div>' : '';
+      var warnHtml = ex.warn ? '<div><span class="warn-pill">⚠ ' + ex.warn + '</span></div>' : '';
+      return '<div class="ex-row">' +
+        '<div><div class="ex-name">' + ex.name + '</div>' + noteHtml + progHtml + warnHtml + '</div>' +
+        '<div class="ex-vol">' + ex.vol + '</div>' +
+        '<div class="ex-rest">' + ex.rest + '</div>' +
+      '</div>';
+    }).join('');
+
+    var circuitHtml = b.circuit ? '<div class="circuit-box">' + b.circuit + '</div>' : '';
+    var tipHtml     = b.tip     ? '<div class="tip"><strong>Dica:</strong> ' + b.tip + '</div>' : '';
+
+    blocksHtml +=
+      '<div class="block">' +
+        '<div class="block-hd" onclick="tog(\'' + key + '\',' + i + ')">' +
+          '<div class="bicon" style="background:' + b.bg + ';color:' + b.fg + '">' + b.em + '</div>' +
+          '<div class="bmeta"><div class="btitle">' + b.title + '</div><div class="bdesc">' + b.desc + '</div></div>' +
+          '<span class="btime">' + b.time + '</span>' +
+          '<span class="chev" id="chev-' + key + '-' + i + '">▼</span>' +
+        '</div>' +
+        '<div class="block-body" id="body-' + key + '-' + i + '">' +
+          '<div class="block-inner">' + exsHtml + circuitHtml + tipHtml + '</div>' +
+        '</div>' +
+      '</div>';
+  });
+
+  tab.innerHTML =
+    '<div class="t-header">' +
+      '<div class="badge-row" style="margin-bottom:10px">' +
+        '<span class="badge b-gold">' + t.label + '</span>' +
+        '<span class="badge b-slate">Sábado</span>' +
+      '</div>' +
+      '<div class="t-title">' + t.title + '</div>' +
+      '<div class="t-sub">' + t.sub + '</div>' +
+      '<div class="info-box ' + t.info.type + '">' + t.info.text + '</div>' +
+    '</div>' +
+    '<div class="tl">' + tls + '</div>' +
+    '<div>' + blocksHtml + '</div>' +
+    '<div class="total"><span>Duração estimada</span><span>' + t.total + '</span></div>';
+}
+
+['fa','fb','fc'].forEach(buildTreino);
+
+// ─── NAVEGAÇÃO ────────────────────────────────────────────────────────────────
+
+function switchTab(k) {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+  var el = document.getElementById('tab-' + k);
+  if (el) el.classList.add('active');
+  var idx = TAB_ORDER.indexOf(k);
+  var btns = document.querySelectorAll('.nav-btn');
+  if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
+}
+
+function tog(key, i) {
+  var body = document.getElementById('body-' + key + '-' + i);
+  var chev = document.getElementById('chev-' + key + '-' + i);
+  if (!body || !chev) return;
+  var open = body.classList.toggle('open');
+  chev.style.transform = open ? 'rotate(180deg)' : '';
+}
+</script>
+</body>
+</html>
