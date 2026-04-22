@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treino de Costas</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;900&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #090B0F;
+    --s1:       #111318;
+    --s2:       #171A20;
+    --s3:       #1D2028;
+    --border:   rgba(255,255,255,0.055);
+    --border2:  rgba(255,255,255,0.10);
+    --text:     #ECEEF2;
+    --text2:    #6B7280;
+    --text3:    #3D4250;
+    --teal:     #2DD4BF;
+    --teal-dim: rgba(45,212,191,0.09);
+    --indigo:   #818CF8;
+    --ind-dim:  rgba(129,140,248,0.09);
+    --warm:     #FCD34D;
+    --warm-dim: rgba(252,211,77,0.09);
+    --rose:     #FB7185;
+    --rose-dim: rgba(251,113,133,0.09);
+    --slate:    #94A3B8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .card {
+    width: 100%; max-width: 600px;
+    background: var(--s1);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+    animation: up .4s ease both;
+  }
+  @keyframes up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 1.5rem 1.5rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(45,212,191,0.05) 0%, transparent 55%);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: 'COSTAS';
+    position: absolute; right: -6px; bottom: -6px;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 64px; font-weight: 900;
+    color: rgba(45,212,191,0.03);
+    letter-spacing: -2px;
+    pointer-events: none; user-select: none;
+    line-height: 1;
+  }
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--teal);
+    margin-bottom: 8px;
+  }
+  .hero-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 22px; font-weight: 700;
+    line-height: 1.15; margin-bottom: 5px;
+    letter-spacing: -0.02em;
+  }
+  .hero-sub { font-size: 13px; color: var(--text2); line-height: 1.6; max-width: 400px; }
+
+  .badge-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 12px; }
+  .badge {
+    font-size: 10px; font-weight: 600;
+    padding: 2px 9px; border-radius: 99px;
+    border: 1px solid; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .bw  { background: var(--warm-dim);  color: var(--warm);   border-color: rgba(252,211,77,0.3); }
+  .bt  { background: var(--teal-dim);  color: var(--teal);   border-color: rgba(45,212,191,0.3); }
+  .bi  { background: var(--ind-dim);   color: var(--indigo); border-color: rgba(129,140,248,0.3); }
+  .br  { background: var(--rose-dim);  color: var(--rose);   border-color: rgba(251,113,133,0.3); }
+  .bx  { background: var(--s2);        color: var(--text2);  border-color: var(--border2); }
+
+  /* ── NAV ── */
+  .nav { display: flex; gap: 4px; padding: 10px 10px 0; flex-wrap: wrap; }
+  .nav-btn {
+    flex: 1; min-width: 80px;
+    padding: 8px 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: 8px; background: transparent;
+    color: var(--text2); cursor: pointer;
+    transition: all .18s; text-align: center;
+  }
+  .nav-btn:hover { color: var(--text); border-color: var(--border2); }
+  .nav-btn.warm.active  { background: var(--warm-dim); color: var(--warm);   border-color: rgba(252,211,77,0.35); }
+  .nav-btn.teal.active  { background: var(--teal-dim); color: var(--teal);   border-color: rgba(45,212,191,0.35); }
+  .nav-btn.indigo.active{ background: var(--ind-dim);  color: var(--indigo); border-color: rgba(129,140,248,0.35); }
+
+  /* ── TABS ── */
+  .tab { display: none; }
+  .tab.active { display: block; animation: fi .2s ease both; }
+  @keyframes fi { from{opacity:0} to{opacity:1} }
+
+  /* ── T-HEADER ── */
+  .t-header {
+    padding: 1.1rem 1.5rem .9rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .t-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 38px; font-weight: 900;
+    line-height: 1; opacity: .08; flex-shrink: 0;
+  }
+  .t-meta { flex: 1; }
+  .t-name { font-family: 'Unbounded', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 3px; letter-spacing: -0.01em; }
+  .t-desc { font-size: 12px; color: var(--text2); }
+
+  /* ── SUMMARY ── */
+  .summary { display: flex; border-bottom: 1px solid var(--border); }
+  .sum-item { flex: 1; padding: 10px 0; text-align: center; border-right: 1px solid var(--border); }
+  .sum-item:last-child { border-right: none; }
+  .sum-val { font-family: 'DM Mono', monospace; font-size: 17px; font-weight: 500; }
+  .sum-lbl { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+
+  /* ── PROGRESS ── */
+  .prog-wrap { display: flex; align-items: center; gap: 10px; padding: 8px 1.5rem; border-bottom: 1px solid var(--border); }
+  .prog-bg   { flex: 1; height: 3px; background: var(--s3); border-radius: 99px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 99px; transition: width .3s ease; width: 0%; }
+  .prog-lbl  { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); min-width: 32px; text-align: right; }
+
+  /* ── GRUPO ── */
+  .grupo { border-bottom: 1px solid var(--border); }
+  .grupo:last-of-type { border-bottom: none; }
+  .grupo-hd {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 1.5rem; cursor: pointer; user-select: none;
+    transition: background .15s;
+  }
+  .grupo-hd:hover { background: var(--s2); }
+  .grupo-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .grupo-name { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text2); flex: 1; }
+  .grupo-count { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); }
+  .grupo-chev  { font-size: 8px; color: var(--text3); transition: transform .22s; }
+  .grupo-body  { max-height: 0; overflow: hidden; transition: max-height .32s ease; }
+  .grupo-body.open { max-height: 800px; }
+
+  /* ── EX ROW ── */
+  .ex-row {
+    display: grid;
+    grid-template-columns: 20px 1fr auto auto 22px;
+    gap: 8px; align-items: center;
+    padding: 9px 1.5rem;
+    border-top: 1px solid var(--border);
+    transition: background .12s;
+  }
+  .ex-row:hover { background: var(--s2); }
+
+  .ex-idx { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); text-align: center; }
+  .ex-info { min-width: 0; }
+  .ex-name { font-size: 13px; font-weight: 500; line-height: 1.35; }
+  .ex-note { font-size: 11px; color: var(--text2); margin-top: 2px; line-height: 1.4; }
+  .ex-row.done .ex-name { text-decoration: line-through; color: var(--text3); }
+
+  .ex-chips { display: flex; gap: 4px; flex-shrink: 0; }
+  .chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    padding: 2px 7px; border-radius: 4px;
+    border: 1px solid; white-space: nowrap;
+  }
+  .chip-rep { background: var(--s2); color: var(--text2); border-color: var(--border2); }
+  .chip-ser { border-color: transparent; }
+
+  /* ── PESO INPUT ── */
+  .peso-wrap { position: relative; width: 60px; flex-shrink: 0; }
+  .peso-input {
+    width: 100%;
+    padding: 4px 20px 4px 6px;
+    background: var(--s2);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    outline: none;
+    transition: border-color .15s;
+    text-align: right;
+  }
+  .peso-input:focus { border-color: var(--teal); }
+  .peso-unit {
+    position: absolute; right: 5px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 9px; color: var(--text3);
+    pointer-events: none;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── CHECK ── */
+  .ex-check {
+    width: 22px; height: 22px; border-radius: 6px;
+    border: 1.5px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all .15s;
+    font-size: 11px; flex-shrink: 0;
+  }
+  .ex-check.done { border-color: transparent; color: var(--bg); }
+
+  /* ── WARMUP ROWS ── */
+  .wu-row {
+    padding: 10px 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 22px 1fr auto;
+    gap: 10px; align-items: start;
+    transition: background .12s;
+  }
+  .wu-row:last-child { border-bottom: none; }
+  .wu-row:hover { background: var(--s2); }
+  .wu-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); padding-top: 2px; }
+  .wu-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .wu-obj  { font-size: 11px; color: var(--text2); margin-bottom: 5px; line-height: 1.4; }
+  .wu-instr{ font-size: 11.5px; color: var(--text); line-height: 1.55; }
+  .wu-chips { display: flex; gap: 4px; flex-wrap: wrap; }
+  .wu-chip {
+    font-size: 10px; font-weight: 600;
+    padding: 2px 8px; border-radius: 4px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+  .wc-warm { background: var(--warm-dim); color: var(--warm); border-color: rgba(252,211,77,0.3); }
+  .wc-rose { background: var(--rose-dim); color: var(--rose); border-color: rgba(251,113,133,0.3); }
+
+  /* ── TOTAL ── */
+  .total {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 1.5rem;
+    background: var(--s2); border-top: 1px solid var(--border);
+  }
+  .total span:first-child { font-size: 12.5px; color: var(--text2); }
+  .total span:last-child  { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--text2); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Costas + Bíceps · Hipertrofia</div>
+    <div class="hero-title">Treino de Costas</div>
+    <div class="hero-sub">Aquecimento completo + 2 variações de treino. Anote o peso em cada exercício e marque conforme executa.</div>
+    <div class="badge-row">
+      <span class="badge bw">Aquecimento 8–12 min</span>
+      <span class="badge bt">Treino 1</span>
+      <span class="badge bi">Treino 2</span>
+      <span class="badge bx">12 reps · 3–4 séries</span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <button class="nav-btn warm active" onclick="switchTab('warmup')">🔥 Aquecimento</button>
+    <button class="nav-btn teal"        onclick="switchTab('t1')">Treino 1</button>
+    <button class="nav-btn indigo"      onclick="switchTab('t2')">Treino 2</button>
+  </div>
+
+  <!-- AQUECIMENTO -->
+  <div id="tab-warmup" class="tab active">
+    <div class="t-header">
+      <div class="t-num" style="color:var(--warm)">00</div>
+      <div class="t-meta">
+        <div class="t-name" style="color:var(--warm)">Aquecimento + Mobilidade</div>
+        <div class="t-desc">Antes do treino de costas — 8 a 12 minutos</div>
+      </div>
+    </div>
+
+    <div id="wu-list"></div>
+
+    <div class="total"><span>Duração estimada</span><span>8–12 min</span></div>
+  </div>
+
+  <!-- TREINO 1 -->
+  <div id="tab-t1" class="tab"></div>
+
+  <!-- TREINO 2 -->
+  <div id="tab-t2" class="tab"></div>
+
+</div>
+
+<script>
+var TAB_ORDER = ['warmup','t1','t2'];
+
+// ── AQUECIMENTO ──────────────────────────────────────────────────────────────
+var WARMUP = [
+  {
+    nome: 'Thread-the-needle',
+    obj:  'Mobilidade de ombro + rotação torácica',
+    vol:  '2 séries · 8–10 por lado',
+    instr:'Em quatro apoios, mão atrás da cabeça. Gire o tronco abrindo o peito, depois passe o braço por baixo do corpo.',
+    tipo: 'wc-warm'
+  },
+  {
+    nome: 'Band Pull-Aparts (elástico)',
+    obj:  'Ativação escapular — romboides e trapézio médio',
+    vol:  '2–3 séries · 12–20 reps',
+    instr:'Braços estendidos à frente, puxar a banda abrindo os braços e juntando as escápulas. Ombros baixos.',
+    tipo: 'wc-warm'
+  },
+  {
+    nome: 'Straight-arm Band Pulldown',
+    obj:  'Ativar dorsais antes das puxadas',
+    vol:  '2 séries · 10–15 reps',
+    instr:'Banda presa acima da cabeça. Braços quase estendidos — puxar até as coxas focando em contrair o latíssimo.',
+    tipo: 'wc-warm'
+  },
+  {
+    nome: 'Bird-dog ou Dead-bug',
+    obj:  'Estabilidade de coluna e controle do core',
+    vol:  '2 séries · 8–10 por lado',
+    instr:'Mantenha coluna neutra e mova braço/perna opostos sem arquear a lombar. Segure 1–2 segundos no final.',
+    tipo: 'wc-warm'
+  },
+  {
+    nome: 'Manguito Rotador',
+    obj:  'Ativação e prevenção de ombro',
+    vol:  '2 séries · 10 por lado',
+    instr:'Cotovelo a 90° colado ao tronco. Rotação externa e interna controlada. Sem compensar com o ombro.',
+    tipo: 'wc-rose'
+  }
+];
+
+// ── TREINOS ──────────────────────────────────────────────────────────────────
+var TREINOS = {
+  t1: {
+    nome: 'Treino 1',
+    desc: 'Costas · Bíceps',
+    acc:  '#2DD4BF',
+    dim:  'rgba(45,212,191,0.09)',
+    bor:  'rgba(45,212,191,0.3)',
+    num:  '01',
+    grupos: [
+      { nome: 'Costas', exs: [
+        { nome:'Puxada Aberta',                              rep:'12x', ser:3, note:null },
+        { nome:'Remada Unilateral com Halter (apoio no banco) ou Máquina', rep:'12x', ser:3, note:null },
+        { nome:'Pulldown Braços Estendidos (Straight-arm)',  rep:'12x', ser:3, note:null },
+        { nome:'Puxada com Triângulo',                       rep:'12x', ser:3, note:null }
+      ]},
+      { nome: 'Bíceps', exs: [
+        { nome:'Rosca na Barra V',                           rep:'12x', ser:3, note:null },
+        { nome:'Rosca Martelo com Halter',                   rep:'12x', ser:4, note:null },
+        { nome:'Rosca no Banco Inclinado',                   rep:'12x', ser:3, note:null },
+        { nome:'Rosca Concentrada na Polia (2 posições)',    rep:'12x', ser:2, note:'Com apoio do braço — duas posições de pulso' }
+      ]}
+    ]
+  },
+  t2: {
+    nome: 'Treino 2',
+    desc: 'Costas · Bíceps · Ombro',
+    acc:  '#818CF8',
+    dim:  'rgba(129,140,248,0.09)',
+    bor:  'rgba(129,140,248,0.3)',
+    num:  '02',
+    grupos: [
+      { nome: 'Costas', exs: [
+        { nome:'Puxada Aberta',                                         rep:'12x', ser:3, note:null },
+        { nome:'Pulldown Braços Estendidos (Straight-arm)',             rep:'12x', ser:3, note:null },
+        { nome:'Remada Máquina',                                        rep:'12x', ser:3, note:null },
+        { nome:'Peck Deck Inverso',                                     rep:'12x', ser:3, note:null }
+      ]},
+      { nome: 'Bíceps', exs: [
+        { nome:'Rosca Alternada com Halter',                            rep:'12x', ser:4, note:null },
+        { nome:'Rosca Scott',                                           rep:'12x', ser:3, note:null },
+        { nome:'Rosca Martelo na Polia',                                rep:'12x', ser:3, note:null },
+        { nome:'Rosca Inversa (Reverse Curl) — Barra, EZ ou Polia',    rep:'12x', ser:2, note:'Pegada pronada — trabalha braquiorradial' }
+      ]},
+      { nome: 'Ombro', exs: [
+        { nome:'Desenvolvimento Máquina',                               rep:'12x', ser:3, note:null }
+      ]}
+    ]
+  }
+};
+
+// ── ESTADO ───────────────────────────────────────────────────────────────────
+var checks = { t1:{}, t2:{} };
+var pesos  = { t1:{}, t2:{} };
+
+// ── BUILD AQUECIMENTO ─────────────────────────────────────────────────────────
+function buildWarmup() {
+  var html = WARMUP.map(function(w, i) {
+    return '<div class="wu-row">' +
+      '<span class="wu-num">' + (i+1) + '</span>' +
+      '<div>' +
+        '<div class="wu-name">' + w.nome + '</div>' +
+        '<div class="wu-obj">' + w.obj + '</div>' +
+        '<div class="wu-chips"><span class="wu-chip ' + w.tipo + '">' + w.vol + '</span></div>' +
+        '<div class="wu-instr" style="margin-top:6px">' + w.instr + '</div>' +
+      '</div>' +
+      '<div></div>' +
+    '</div>';
+  }).join('');
+  document.getElementById('wu-list').innerHTML = html;
+}
+
+// ── BUILD TREINO ──────────────────────────────────────────────────────────────
+function totalExs(key) {
+  var n=0; TREINOS[key].grupos.forEach(function(g){ n+=g.exs.length; }); return n;
+}
+function totalSer(key) {
+  var n=0; TREINOS[key].grupos.forEach(function(g){ g.exs.forEach(function(e){ n+=e.ser; }); }); return n;
+}
+function doneCount(key) {
+  return Object.values(checks[key]).filter(Boolean).length;
+}
+
+function buildTreino(key) {
+  var t = TREINOS[key];
+  var tab = document.getElementById('tab-' + key);
+  var total = totalExs(key);
+  var done  = doneCount(key);
+  var pct   = total>0 ? Math.round(done/total*100) : 0;
+
+  var exGlobal = 0;
+  var gruposHtml = t.grupos.map(function(g, gi) {
+    var exsHtml = g.exs.map(function(ex, ei) {
+      exGlobal++;
+      var idx   = exGlobal;
+      var id    = key+'-'+gi+'-'+ei;
+      var isDone= checks[key][id]||false;
+      var peso  = pesos[key][id]||'';
+      return '<div class="ex-row'+(isDone?' done':'')+'" id="row-'+id+'">' +
+        '<span class="ex-idx">'+idx+'</span>' +
+        '<div class="ex-info">' +
+          '<div class="ex-name">'+ex.nome+'</div>' +
+          (ex.note ? '<div class="ex-note">'+ex.note+'</div>' : '') +
+        '</div>' +
+        '<div class="ex-chips">' +
+          '<span class="chip chip-rep">'+ex.rep+'</span>' +
+          '<span class="chip chip-ser" style="background:'+t.dim+';color:'+t.acc+';border-color:'+t.bor+'">'+ex.ser+' séries</span>' +
+        '</div>' +
+        '<div class="peso-wrap">' +
+          '<input class="peso-input" type="number" min="0" step="0.5" placeholder="—" value="'+peso+'" ' +
+            'onchange="savePeso(\''+key+'\',\''+id+'\',this.value)" ' +
+            'oninput="savePeso(\''+key+'\',\''+id+'\',this.value)">' +
+          '<span class="peso-unit">kg</span>' +
+        '</div>' +
+        '<div class="ex-check'+(isDone?' done':'')+'" id="chk-'+id+'" ' +
+          'style="'+(isDone?'background:'+t.acc+';':'')+'" ' +
+          'onclick="toggleEx(\''+key+'\','+gi+','+ei+')">' +
+          (isDone?'✓':'') +
+        '</div>' +
+      '</div>';
+    }).join('');
+    var bodyId = 'gbody-'+key+'-'+gi;
+    var chevId = 'gchev-'+key+'-'+gi;
+    return '<div class="grupo">' +
+      '<div class="grupo-hd" onclick="togGrupo(\''+bodyId+'\',\''+chevId+'\')">' +
+        '<div class="grupo-dot" style="background:'+t.acc+'"></div>' +
+        '<span class="grupo-name">'+g.nome+'</span>' +
+        '<span class="grupo-count">'+g.exs.length+' ex.</span>' +
+        '<span class="grupo-chev" id="'+chevId+'">▼</span>' +
+      '</div>' +
+      '<div class="grupo-body open" id="'+bodyId+'">'+exsHtml+'</div>' +
+    '</div>';
+  }).join('');
+
+  tab.innerHTML =
+    '<div class="t-header">' +
+      '<div class="t-num" style="color:'+t.acc+'">'+t.num+'</div>' +
+      '<div class="t-meta">' +
+        '<div class="t-name" style="color:'+t.acc+'">'+t.nome+'</div>' +
+        '<div class="t-desc">'+t.desc+'</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="summary">' +
+      '<div class="sum-item"><div class="sum-val" style="color:'+t.acc+'">'+total+'</div><div class="sum-lbl">Exercícios</div></div>' +
+      '<div class="sum-item"><div class="sum-val" style="color:'+t.acc+'">'+totalSer(key)+'</div><div class="sum-lbl">Séries</div></div>' +
+      '<div class="sum-item"><div class="sum-val" style="color:'+t.acc+'">'+t.grupos.length+'</div><div class="sum-lbl">Grupos</div></div>' +
+      '<div class="sum-item"><div class="sum-val" style="color:'+t.acc+'" id="sdone-'+key+'">'+done+'/'+total+'</div><div class="sum-lbl">Feitos</div></div>' +
+    '</div>' +
+    '<div class="prog-wrap">' +
+      '<div class="prog-bg"><div class="prog-fill" id="bar-'+key+'" style="width:'+pct+'%;background:'+t.acc+'"></div></div>' +
+      '<span class="prog-lbl" id="pct-'+key+'">'+pct+'%</span>' +
+    '</div>' +
+    '<div>'+gruposHtml+'</div>' +
+    '<div class="total"><span>Volume total</span><span>'+totalSer(key)+' séries · 12 reps</span></div>';
+}
+
+// ── INTERAÇÕES ────────────────────────────────────────────────────────────────
+window.savePeso = function(key, id, val) {
+  pesos[key][id] = val;
+};
+
+window.toggleEx = function(key, gi, ei) {
+  var id    = key+'-'+gi+'-'+ei;
+  checks[key][id] = !checks[key][id];
+  var isDone= checks[key][id];
+  var t     = TREINOS[key];
+
+  var row = document.getElementById('row-'+id);
+  var chk = document.getElementById('chk-'+id);
+  if (row) row.classList.toggle('done', isDone);
+  if (chk) {
+    chk.classList.toggle('done', isDone);
+    chk.style.background = isDone ? t.acc : '';
+    chk.innerHTML = isDone ? '✓' : '';
+  }
+
+  var total = totalExs(key);
+  var done  = doneCount(key);
+  var pct   = total>0 ? Math.round(done/total*100) : 0;
+  var bar   = document.getElementById('bar-'+key);
+  var pctEl = document.getElementById('pct-'+key);
+  var sdone = document.getElementById('sdone-'+key);
+  if (bar)   bar.style.width = pct+'%';
+  if (pctEl) pctEl.textContent = pct+'%';
+  if (sdone) sdone.textContent = done+'/'+total;
+};
+
+window.togGrupo = function(bodyId, chevId) {
+  var body = document.getElementById(bodyId);
+  var chev = document.getElementById(chevId);
+  if (!body||!chev) return;
+  var open = body.classList.toggle('open');
+  chev.style.transform = open ? '' : 'rotate(-90deg)';
+};
+
+function switchTab(k) {
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('active'); });
+  var el = document.getElementById('tab-'+k);
+  if (el) el.classList.add('active');
+  var idx = TAB_ORDER.indexOf(k);
+  var btns = document.querySelectorAll('.nav-btn');
+  if (btns[idx]) btns[idx].classList.add('active');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+buildWarmup();
+['t1','t2'].forEach(buildTreino);
+</script>
+</body>
+</html>

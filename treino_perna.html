@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treino de Perna</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;900&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #09090C;
+    --s1:       #101014;
+    --s2:       #16161C;
+    --s3:       #1C1C24;
+    --border:   rgba(255,255,255,0.055);
+    --border2:  rgba(255,255,255,0.10);
+    --text:     #ECEEF2;
+    --text2:    #6B7280;
+    --text3:    #3A3D4A;
+    --lime:     #A3E635;
+    --lime-dim: rgba(163,230,53,0.09);
+    --cyan:     #22D3EE;
+    --cy-dim:   rgba(34,211,238,0.09);
+    --violet:   #A78BFA;
+    --vi-dim:   rgba(167,139,250,0.09);
+    --amber:    #FCD34D;
+    --am-dim:   rgba(252,211,77,0.09);
+    --rose:     #FB7185;
+    --ro-dim:   rgba(251,113,133,0.09);
+    --green:    #4ADE80;
+    --gr-dim:   rgba(74,222,128,0.09);
+  }
+
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+  body {
+    font-family:'DM Sans',sans-serif;
+    background:var(--bg); color:var(--text);
+    min-height:100vh; padding:1.5rem;
+    display:flex; justify-content:center; align-items:flex-start;
+  }
+
+  .card {
+    width:100%; max-width:600px;
+    background:var(--s1); border:1px solid var(--border);
+    border-radius:18px; overflow:hidden;
+    box-shadow:0 40px 100px rgba(0,0,0,0.72);
+    animation:up .4s ease both;
+  }
+  @keyframes up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+  /* HERO */
+  .hero {
+    padding:1.5rem 1.5rem 1.25rem;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(135deg,rgba(163,230,53,0.05) 0%,transparent 55%);
+    position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:'PERNA';
+    position:absolute; right:-4px; bottom:-10px;
+    font-family:'Unbounded',sans-serif;
+    font-size:72px; font-weight:900;
+    color:rgba(163,230,53,0.03);
+    pointer-events:none; user-select:none; line-height:1;
+  }
+  .hero-tag {
+    font-family:'DM Mono',monospace;
+    font-size:10px; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--lime); margin-bottom:8px;
+  }
+  .hero-title {
+    font-family:'Unbounded',sans-serif;
+    font-size:22px; font-weight:700;
+    line-height:1.15; margin-bottom:5px; letter-spacing:-0.02em;
+  }
+  .hero-sub { font-size:13px; color:var(--text2); line-height:1.6; max-width:420px; }
+  .badge-row { display:flex; gap:5px; flex-wrap:wrap; margin-top:12px; }
+  .badge {
+    font-size:10px; font-weight:600;
+    padding:2px 9px; border-radius:99px;
+    border:1px solid; letter-spacing:0.04em; text-transform:uppercase;
+  }
+  .bli { background:var(--lime-dim); color:var(--lime);   border-color:rgba(163,230,53,0.3); }
+  .bcy { background:var(--cy-dim);  color:var(--cyan);   border-color:rgba(34,211,238,0.3); }
+  .bvi { background:var(--vi-dim);  color:var(--violet); border-color:rgba(167,139,250,0.3); }
+  .bam { background:var(--am-dim);  color:var(--amber);  border-color:rgba(252,211,77,0.3); }
+  .bgr { background:var(--gr-dim);  color:var(--green);  border-color:rgba(74,222,128,0.3); }
+  .bxx { background:var(--s2);      color:var(--text2);  border-color:var(--border2); }
+
+  /* NAV */
+  .nav { display:flex; gap:4px; padding:10px 10px 0; flex-wrap:wrap; }
+  .nav-btn {
+    flex:1; min-width:60px; padding:8px 4px;
+    font-family:'DM Sans',sans-serif;
+    font-size:11px; font-weight:600;
+    border:1px solid var(--border); border-radius:8px;
+    background:transparent; color:var(--text2);
+    cursor:pointer; transition:all .18s; text-align:center;
+  }
+  .nav-btn:hover { color:var(--text); border-color:var(--border2); }
+  .nav-btn.li.active { background:var(--lime-dim); color:var(--lime);   border-color:rgba(163,230,53,0.35); }
+  .nav-btn.cy.active { background:var(--cy-dim);  color:var(--cyan);   border-color:rgba(34,211,238,0.35); }
+  .nav-btn.vi.active { background:var(--vi-dim);  color:var(--violet); border-color:rgba(167,139,250,0.35); }
+  .nav-btn.gr.active { background:var(--gr-dim);  color:var(--green);  border-color:rgba(74,222,128,0.35); }
+
+  /* TABS */
+  .tab { display:none; }
+  .tab.active { display:block; animation:fi .2s ease both; }
+  @keyframes fi { from{opacity:0} to{opacity:1} }
+
+  /* T-HEADER */
+  .t-header {
+    padding:1.1rem 1.5rem .9rem;
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:14px;
+  }
+  .t-num {
+    font-family:'Unbounded',sans-serif;
+    font-size:38px; font-weight:900;
+    line-height:1; opacity:.07; flex-shrink:0;
+  }
+  .t-meta { flex:1; }
+  .t-name { font-family:'Unbounded',sans-serif; font-size:16px; font-weight:700; margin-bottom:3px; letter-spacing:-0.01em; }
+  .t-desc { font-size:12px; color:var(--text2); }
+
+  /* SUMMARY */
+  .summary { display:flex; border-bottom:1px solid var(--border); }
+  .sum-item { flex:1; padding:10px 0; text-align:center; border-right:1px solid var(--border); }
+  .sum-item:last-child { border-right:none; }
+  .sum-val { font-family:'DM Mono',monospace; font-size:17px; font-weight:500; }
+  .sum-lbl { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:0.06em; margin-top:2px; }
+
+  /* PROGRESS */
+  .prog-wrap { display:flex; align-items:center; gap:10px; padding:8px 1.5rem; border-bottom:1px solid var(--border); }
+  .prog-bg   { flex:1; height:3px; background:var(--s3); border-radius:99px; overflow:hidden; }
+  .prog-fill { height:100%; border-radius:99px; transition:width .3s ease; width:0%; }
+  .prog-lbl  { font-family:'DM Mono',monospace; font-size:10px; color:var(--text3); min-width:32px; text-align:right; }
+
+  /* GRUPO */
+  .grupo { border-bottom:1px solid var(--border); }
+  .grupo:last-of-type { border-bottom:none; }
+  .grupo-hd {
+    display:flex; align-items:center; gap:10px;
+    padding:9px 1.5rem; cursor:pointer; user-select:none;
+    transition:background .15s;
+  }
+  .grupo-hd:hover { background:var(--s2); }
+  .grupo-dot   { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+  .grupo-name  { font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text2); flex:1; }
+  .grupo-count { font-family:'DM Mono',monospace; font-size:10px; color:var(--text3); }
+  .grupo-chev  { font-size:8px; color:var(--text3); transition:transform .22s; }
+  .grupo-body  { max-height:0; overflow:hidden; transition:max-height .32s ease; }
+  .grupo-body.open { max-height:900px; }
+
+  /* EX ROW */
+  .ex-row {
+    display:grid;
+    grid-template-columns:20px 1fr auto auto 22px;
+    gap:8px; align-items:center;
+    padding:9px 1.5rem;
+    border-top:1px solid var(--border);
+    transition:background .12s;
+  }
+  .ex-row:hover { background:var(--s2); }
+  .ex-idx  { font-family:'DM Mono',monospace; font-size:10px; color:var(--text3); text-align:center; }
+  .ex-info { min-width:0; }
+  .ex-name { font-size:13px; font-weight:500; line-height:1.35; }
+  .ex-note { font-size:11px; color:var(--text2); margin-top:2px; line-height:1.4; }
+  .ex-row.done .ex-name { text-decoration:line-through; color:var(--text3); }
+
+  .ex-chips { display:flex; gap:4px; flex-direction:column; align-items:flex-end; flex-shrink:0; }
+  .chip {
+    font-family:'DM Mono',monospace;
+    font-size:10px; font-weight:500;
+    padding:2px 7px; border-radius:4px;
+    border:1px solid; white-space:nowrap;
+  }
+  .chip-vol  { background:var(--s2); color:var(--text2); border-color:var(--border2); }
+  .chip-rest { background:transparent; color:var(--text3); border-color:var(--border); }
+  .chip-acc  { border-color:transparent; }
+
+  /* SUBSTITUTO */
+  .sub-pill {
+    display:inline-block;
+    font-size:10px; font-weight:600;
+    padding:1px 7px; border-radius:4px;
+    background:var(--am-dim); color:var(--amber);
+    border:1px solid rgba(252,211,77,0.25);
+    margin-top:3px;
+  }
+  .vbt-pill {
+    display:inline-block;
+    font-size:10px; font-weight:600;
+    padding:1px 7px; border-radius:4px;
+    background:var(--cy-dim); color:var(--cyan);
+    border:1px solid rgba(34,211,238,0.25);
+    margin-top:3px; margin-left:4px;
+  }
+  .prog-pill {
+    display:inline-block;
+    font-size:10px; font-weight:600;
+    padding:1px 7px; border-radius:4px;
+    background:var(--gr-dim); color:var(--green);
+    border:1px solid rgba(74,222,128,0.25);
+    margin-top:3px;
+  }
+
+  /* PESO */
+  .peso-wrap { position:relative; width:58px; flex-shrink:0; }
+  .peso-input {
+    width:100%; padding:4px 18px 4px 6px;
+    background:var(--s2); border:1px solid var(--border2);
+    border-radius:6px; color:var(--text);
+    font-family:'DM Mono',monospace; font-size:11px;
+    outline:none; transition:border-color .15s; text-align:right;
+  }
+  .peso-input:focus { border-color:var(--lime); }
+  .peso-unit {
+    position:absolute; right:5px; top:50%; transform:translateY(-50%);
+    font-size:9px; color:var(--text3); pointer-events:none;
+    font-family:'DM Mono',monospace;
+  }
+
+  /* CHECK */
+  .ex-check {
+    width:22px; height:22px; border-radius:6px;
+    border:1.5px solid var(--border2);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:all .15s; font-size:11px; flex-shrink:0;
+  }
+  .ex-check.done { border-color:transparent; color:var(--bg); }
+
+  /* WARMUP ROW */
+  .wu-row {
+    padding:12px 1.5rem;
+    border-bottom:1px solid var(--border);
+    display:grid; grid-template-columns:22px 1fr;
+    gap:10px; align-items:start;
+    transition:background .12s;
+  }
+  .wu-row:last-child { border-bottom:none; }
+  .wu-row:hover { background:var(--s2); }
+  .wu-num   { font-family:'DM Mono',monospace; font-size:11px; color:var(--text3); padding-top:2px; }
+  .wu-name  { font-size:13px; font-weight:600; margin-bottom:3px; }
+  .wu-obs   { font-size:11.5px; color:var(--text); line-height:1.55; margin-top:4px; }
+  .wu-chips { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:4px; }
+  .wu-chip  {
+    font-size:10px; font-weight:600;
+    padding:2px 8px; border-radius:4px; border:1px solid; white-space:nowrap;
+  }
+  .wc-li { background:var(--lime-dim); color:var(--lime);   border-color:rgba(163,230,53,0.3); }
+  .wc-am { background:var(--am-dim);  color:var(--amber);  border-color:rgba(252,211,77,0.3); }
+  .wc-cy { background:var(--cy-dim);  color:var(--cyan);   border-color:rgba(34,211,238,0.3); }
+
+  /* CHECK POST BLOCO */
+  .check-box {
+    margin:0 1.5rem 1rem;
+    padding:10px 13px;
+    background:var(--cy-dim); border:1px solid rgba(34,211,238,0.2);
+    border-radius:8px; font-size:12px; color:#A5E8FA; line-height:1.6;
+  }
+  .check-box strong { color:var(--cyan); font-weight:600; }
+
+  /* ALONG */
+  .along-row {
+    padding:12px 1.5rem;
+    border-bottom:1px solid var(--border);
+    display:grid; grid-template-columns:22px 1fr;
+    gap:10px;
+  }
+  .along-row:last-child { border-bottom:none; }
+
+  /* TOTAL */
+  .total {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 1.5rem; background:var(--s2); border-top:1px solid var(--border);
+  }
+  .total span:first-child { font-size:12.5px; color:var(--text2); }
+  .total span:last-child  { font-family:'DM Mono',monospace; font-size:13px; color:var(--text2); }
+
+  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:var(--border2); border-radius:4px; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Perna · Terça · Força + Hipertrofia</div>
+    <div class="hero-title">Treino de Perna</div>
+    <div class="hero-sub">Ativação dinâmica + 2 variações de treino + alongamento. Anote o peso e marque conforme executa.</div>
+    <div class="badge-row">
+      <span class="badge bam">🔥 Ativação</span>
+      <span class="badge bcy">Perna A · Força</span>
+      <span class="badge bvi">Perna B · Explosão</span>
+      <span class="badge bgr">Alongamento</span>
+      <span class="badge bxx">Terça-feira</span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <button class="nav-btn li active" onclick="switchTab('warm')">🔥 Ativação</button>
+    <button class="nav-btn cy"        onclick="switchTab('pa')">Perna A</button>
+    <button class="nav-btn vi"        onclick="switchTab('pb')">Perna B</button>
+    <button class="nav-btn gr"        onclick="switchTab('alon')">Alongamento</button>
+  </div>
+
+  <div id="tab-warm" class="tab active"></div>
+  <div id="tab-pa"   class="tab"></div>
+  <div id="tab-pb"   class="tab"></div>
+  <div id="tab-alon" class="tab"></div>
+
+</div>
+
+<script>
+var TAB_ORDER = ['warm','pa','pb','alon'];
+
+// ── AQUECIMENTO ───────────────────────────────────────────────────────────────
+var WARMUP = [
+  {
+    nome:'Mobilidade de Quadril (Círculos)',
+    chips:[{l:'30 s / perna',c:'wc-li'},{l:'2 rounds',c:'wc-am'}],
+    obs:'De pé, levanta o joelho e gira lentamente para abrir o quadril. Faça os dois sentidos.'
+  },
+  {
+    nome:'TKE — Terminal Knee Extension',
+    chips:[{l:'2 séries · 15 reps / lado',c:'wc-li'},{l:'Faixa elástica',c:'wc-cy'}],
+    obs:'Banda presa atrás do joelho. Estenda o joelho contra a resistência. Ativa VMO e estabiliza patela antes da carga.'
+  },
+  {
+    nome:'Mini Band Walk (Lateral)',
+    chips:[{l:'2 séries · 10 passos / lado',c:'wc-li'},{l:'Faixa elástica',c:'wc-cy'}],
+    obs:'Faixa acima dos joelhos, postura ligeiramente agachada. Passos laterais controlados para ativar glúteo médio.'
+  },
+  {
+    nome:'Agachamento com Peso Corporal',
+    chips:[{l:'2 séries · 15 reps',c:'wc-li'}],
+    obs:'Movimento controlado e profundidade confortável. Sem compensar com o tronco. Prepara o padrão motor para a carga.'
+  },
+  {
+    nome:'Afundo Alternado (Lunge)',
+    chips:[{l:'2 séries · 10 reps / perna',c:'wc-li'}],
+    obs:'Parado ou andando conforme o espaço. Joelho dianteiro não ultrapassa o dedão. Tronco ereto.'
+  }
+];
+
+// ── TREINOS ───────────────────────────────────────────────────────────────────
+var TREINOS = {
+  pa:{
+    nome:'Perna A', desc:'Terça · Força Segura + Potência + Glúteo',
+    acc:'#22D3EE', dim:'rgba(34,211,238,0.09)', bor:'rgba(34,211,238,0.3)', num:'A',
+    grupos:[
+      { nome:'Quadríceps — Força', exs:[
+        {
+          nome:'Hack Squat (ROM controlado)',
+          vol:'4 × 8–10', rest:'2–3 min', tempo:'3/0/1',
+          note:'Amplitude controlada — não force além do confortável. Pés no meio da plataforma.',
+          sub:'Leg-press bilateral pé alto',
+          vbt:'0.35–0.55 m/s',
+          prog:'Aumentar 2–5% se velocidade e ROM mantidos'
+        }
+      ]},
+      { nome:'Glúteo + Posterior', exs:[
+        {
+          nome:'Hip Thrust (barra) ou Máquina',
+          vol:'3 × 8', rest:'90 s', tempo:'2/0/1',
+          note:'Pico de contração no topo — 1 s de pausa. Não hiperestendar lombar.',
+          sub:'Hip Thrust unilateral com carga leve',
+          vbt:'0.4–0.6 m/s',
+          prog:'Aumentar 2–5% se pico de contração controlado'
+        }
+      ]},
+      { nome:'Isquiotibiais', exs:[
+        {
+          nome:'Cadeira Flexora',
+          vol:'3 × 12', rest:'60 s', tempo:'2/0/2',
+          note:'Excêntrico lento — 2 s para baixo. Não use o quadril para ajudar.',
+          sub:null, vbt:null,
+          prog:'Aumentar carga se técnica estável'
+        }
+      ]},
+      { nome:'Abdutores', exs:[
+        {
+          nome:'Cadeira Abdutora',
+          vol:'3 × 12', rest:'45–60 s', tempo:'2/0/1',
+          note:'Ombros relaxados. Mova só o quadril — não torça o tronco.',
+          sub:null, vbt:null,
+          prog:'Aumentar resistência gradualmente'
+        }
+      ]},
+      { nome:'Panturrilha', exs:[
+        {
+          nome:'Panturrilha na Máquina',
+          vol:'3 × 12', rest:'45 s', tempo:'2/0/2',
+          note:'Amplitude completa — suba e desça até o limite. Segure 1 s no topo.',
+          sub:null, vbt:null,
+          prog:'Aumentar carga progressiva'
+        }
+      ]},
+      { nome:'Core', exs:[
+        {
+          nome:'Abdominal Inclinado',
+          vol:'4 × 15', rest:'45 s', tempo:'2/0/1',
+          note:'Cadência controlada. Não balance o pescoço para ganhar impulso.',
+          sub:null, vbt:null,
+          prog:'Aumentar inclinação ou adicionar peso'
+        }
+      ]}
+    ],
+    checkBox:'<strong>Check pós-treino:</strong> Anotar dor pré/pós (0–10), RPE médio da sessão. Se for dia de teste: CMJ (Counter Movement Jump) para referência de potência.'
+  },
+
+  pb:{
+    nome:'Perna B', desc:'Terça · Explosão Unilateral + Hipertrofia Quad Protegida',
+    acc:'#A78BFA', dim:'rgba(167,139,250,0.09)', bor:'rgba(167,139,250,0.3)', num:'B',
+    grupos:[
+      { nome:'Posterior — Força Unilateral', exs:[
+        {
+          nome:'Single-leg RDL com Halter',
+          vol:'3 × 8 / perna', rest:'90 s', tempo:'3s excêntrico / 0 / 1',
+          note:'Excêntrico de 2–3 s. Quadril vai para trás, tronco inclina — não curva a coluna.',
+          sub:'RDL Trap-bar bilateral',
+          vbt:null,
+          prog:'Aumentar carga gradual — priorizar simetria entre lados'
+        }
+      ]},
+      { nome:'Quadríceps — Hipertrofia Protegida', exs:[
+        {
+          nome:'Leg Press (pé alto)',
+          vol:'3 × 8–12', rest:'60–90 s', tempo:'2/0/1',
+          note:'Pé alto e afastado — maior ativação de glúteo e reduz shear no joelho.',
+          sub:'Step-up alto unilateral',
+          vbt:null,
+          prog:'Aumentar carga se sem dor e simetria OK'
+        },
+        {
+          nome:'Cadeira Extensora (moderada)',
+          vol:'3 × 10–12', rest:'60–90 s', tempo:'2/0/2',
+          note:'Somente se sem dor anterior. Reduzir carga se dor > 3/10. Excêntrico lento.',
+          sub:'Leg Press unilateral',
+          vbt:null,
+          prog:'Só progrida se 0 dor — técnica > carga aqui'
+        }
+      ]},
+      { nome:'Adutores', exs:[
+        {
+          nome:'Cadeira Adutora',
+          vol:'3 × 12', rest:'45–60 s', tempo:'2/0/1',
+          note:'Movimento controlado, sem bater nas extremidades.',
+          sub:null, vbt:null,
+          prog:'Aumentar resistência gradualmente'
+        }
+      ]},
+      { nome:'Panturrilha', exs:[
+        {
+          nome:'Panturrilha na Máquina',
+          vol:'2 × 12', rest:'45 s', tempo:'2/0/2',
+          note:'Amplitude completa. Volume menor que Perna A — acumulado da semana.',
+          sub:null, vbt:null, prog:null
+        }
+      ]},
+      { nome:'Prevenção', exs:[
+        {
+          nome:'Conchinha com Miniband',
+          vol:'3 × 15 / lado', rest:'30 s', tempo:'Controlado',
+          note:'Faixa acima dos joelhos. Deitado de lado, pé fixo, abra o joelho. Ativa glúteo médio.',
+          sub:null, vbt:null,
+          prog:'Progressão de resistência da faixa'
+        },
+        {
+          nome:'Band Walks Laterais (Miniband)',
+          vol:'3 × 20 passos', rest:'30 s', tempo:'Controlado',
+          note:'Postura levemente agachada. Passos uniformes sem deixar os joelhos colapsarem.',
+          sub:null, vbt:null,
+          prog:'Progressão de resistência da faixa'
+        }
+      ]},
+      { nome:'Core', exs:[
+        {
+          nome:'Ab-Wheel (roda abdominal)',
+          vol:'3 × 6–8', rest:'60–90 s', tempo:'3s ida / 0 / 2s volta',
+          note:'Coluna neutra durante todo o movimento. Não deixe o quadril cair. Progrida reps antes de carga.',
+          sub:'Prancha lateral 3 × 30 s',
+          vbt:null,
+          prog:'Aumentar reps quando técnica estiver estável'
+        },
+        {
+          nome:'Abdominal Reto (aparelho ou solo)',
+          vol:'3 × 15', rest:'45 s', tempo:'2/0/1',
+          note:'Complemento ao Ab-Wheel. Foco em contração, não em amplitude.',
+          sub:null, vbt:null, prog:null
+        }
+      ]}
+    ],
+    checkBox:'<strong>Check pós-treino:</strong> Anotar dor pré/pós em cada perna separado (0–10), RPE médio. Notar assimetrias de força ou amplitude.'
+  }
+};
+
+// ── ESTADO ────────────────────────────────────────────────────────────────────
+var checks = {pa:{},pb:{}};
+var pesos  = {pa:{},pb:{}};
+
+// ── BUILD AQUECIMENTO ─────────────────────────────────────────────────────────
+function buildWarmup() {
+  var tab = document.getElementById('tab-warm');
+  var rows = WARMUP.map(function(w,i) {
+    var chips = w.chips.map(function(c){ return '<span class="wu-chip '+c.c+'">'+c.l+'</span>'; }).join('');
+    return '<div class="wu-row">' +
+      '<span class="wu-num">'+(i+1)+'</span>' +
+      '<div>' +
+        '<div class="wu-name">'+w.nome+'</div>' +
+        '<div class="wu-chips">'+chips+'</div>' +
+        '<div class="wu-obs">'+w.obs+'</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  tab.innerHTML =
+    '<div class="t-header">' +
+      '<div class="t-num" style="color:var(--lime)">00</div>' +
+      '<div class="t-meta">' +
+        '<div class="t-name" style="color:var(--lime)">Mobilidade e Ativação Dinâmica</div>' +
+        '<div class="t-desc">Execute antes de qualquer treino de perna — 5 a 8 minutos</div>' +
+      '</div>' +
+    '</div>' +
+    '<div>'+rows+'</div>' +
+    '<div class="total"><span>Duração estimada</span><span>5–8 min</span></div>';
+}
+
+// ── BUILD TREINO ──────────────────────────────────────────────────────────────
+function totalExs(key){ var n=0; TREINOS[key].grupos.forEach(function(g){n+=g.exs.length;}); return n; }
+function doneCount(key){ return Object.values(checks[key]).filter(Boolean).length; }
+function totalSeries(key){
+  var n=0;
+  TREINOS[key].grupos.forEach(function(g){
+    g.exs.forEach(function(e){
+      var m=e.vol.match(/(\d+)\s*[×x]/);
+      if(m) n+=parseInt(m[1]);
+    });
+  });
+  return n;
+}
+
+function buildTreino(key) {
+  var t=TREINOS[key], tab=document.getElementById('tab-'+key);
+  var total=totalExs(key), done=doneCount(key);
+  var pct=total>0?Math.round(done/total*100):0;
+
+  var exGlobal=0;
+  var gruposHtml = t.grupos.map(function(g,gi){
+    var exsHtml = g.exs.map(function(ex,ei){
+      exGlobal++;
+      var id=key+'-'+gi+'-'+ei, isDone=checks[key][id]||false, peso=pesos[key][id]||'';
+      var pills='';
+      if(ex.sub)  pills+='<span class="sub-pill">↔ '+ex.sub+'</span>';
+      if(ex.vbt)  pills+='<span class="vbt-pill">VBT: '+ex.vbt+'</span>';
+      if(ex.prog) pills+='<br><span class="prog-pill">↑ '+ex.prog+'</span>';
+      return '<div class="ex-row'+(isDone?' done':'')+'" id="row-'+id+'">' +
+        '<span class="ex-idx">'+exGlobal+'</span>' +
+        '<div class="ex-info">' +
+          '<div class="ex-name">'+ex.nome+'</div>' +
+          (ex.note?'<div class="ex-note">'+ex.note+'</div>':'') +
+          (pills?'<div style="margin-top:4px">'+pills+'</div>':'') +
+        '</div>' +
+        '<div class="ex-chips">' +
+          '<span class="chip chip-vol">'+ex.vol+'</span>' +
+          '<span class="chip chip-rest">'+ex.rest+'</span>' +
+          (ex.tempo?'<span class="chip chip-rest" style="font-size:9px">'+ex.tempo+'</span>':'') +
+        '</div>' +
+        '<div class="peso-wrap">' +
+          '<input class="peso-input" type="number" min="0" step="0.5" placeholder="—" value="'+peso+'" ' +
+            'oninput="savePeso(\''+key+'\',\''+id+'\',this.value)">' +
+          '<span class="peso-unit">kg</span>' +
+        '</div>' +
+        '<div class="ex-check'+(isDone?' done':'')+'" id="chk-'+id+'" ' +
+          'style="'+(isDone?'background:'+t.acc+';':'')+'" ' +
+          'onclick="toggleEx(\''+key+'\','+gi+','+ei+')">' +
+          (isDone?'✓':'') +
+        '</div>' +
+      '</div>';
+    }).join('');
+    var bodyId='gbody-'+key+'-'+gi, chevId='gchev-'+key+'-'+gi;
+    return '<div class="grupo">' +
+      '<div class="grupo-hd" onclick="togGrupo(\''+bodyId+'\',\''+chevId+'\')">' +
+        '<div class="grupo-dot" style="background:'+t.acc+'"></div>' +
+        '<span class="grupo-name">'+g.nome+'</span>' +
+        '<span class="grupo-count">'+g.exs.length+' ex.</span>' +
+        '<span class="grupo-chev" id="'+chevId+'">▼</span>' +
+      '</div>' +
+      '<div class="grupo-body open" id="'+bodyId+'">'+exsHtml+'</div>' +
+    '</div>';
+  }).join('');
+
+  tab.innerHTML =
+    '<div class="t-header">' +
+      '<div class="t-num" style="color:'+t.acc+'">'+t.num+'</div>' +
+      '<div class="t-meta">' +
+        '<div class="t-name" style="color:'+t.acc+'">'+t.nome+'</div>' +
+        '<div class="t-desc">'+t.desc+'</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="summary">' +
+      '<div class="sum-item"><div class="sum-val" style="color:'+t.acc+'">'+total+'</div><div class="sum-lbl">Exercícios</div></div>' +
+      '<div class="sum-item"><div class="sum-val" style="color:'+t.acc+'">'+totalSeries(key)+'</div><div class="sum-lbl">Séries</div></div>' +
+      '<div class="sum-item"><div class="sum-val" style="color:'+t.acc+'">'+t.grupos.length+'</div><div class="sum-lbl">Grupos</div></div>' +
+      '<div class="sum-item"><div class="sum-val" style="color:'+t.acc+'" id="sdone-'+key+'">'+done+'/'+total+'</div><div class="sum-lbl">Feitos</div></div>' +
+    '</div>' +
+    '<div class="prog-wrap">' +
+      '<div class="prog-bg"><div class="prog-fill" id="bar-'+key+'" style="width:'+pct+'%;background:'+t.acc+'"></div></div>' +
+      '<span class="prog-lbl" id="pct-'+key+'">'+pct+'%</span>' +
+    '</div>' +
+    '<div>'+gruposHtml+'</div>' +
+    '<div class="check-box" style="margin-top:12px">'+t.checkBox+'</div>' +
+    '<div class="total"><span>Volume total</span><span>'+totalSeries(key)+' séries</span></div>';
+}
+
+// ── BUILD ALONGAMENTO ─────────────────────────────────────────────────────────
+function buildAlong() {
+  var tab = document.getElementById('tab-alon');
+  tab.innerHTML =
+    '<div class="t-header">' +
+      '<div class="t-num" style="color:var(--green)">FIM</div>' +
+      '<div class="t-meta">' +
+        '<div class="t-name" style="color:var(--green)">Alongamento Final</div>' +
+        '<div class="t-desc">Após qualquer treino de perna — não pule</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="along-row">' +
+      '<span class="wu-num">1</span>' +
+      '<div>' +
+        '<div class="wu-name">Alongamento de Perna e Quadril</div>' +
+        '<div class="wu-chips" style="margin:5px 0">' +
+          '<span class="wu-chip wc-li">1 série · 5 posições</span>' +
+          '<span class="wu-chip wc-am">30–60 s cada</span>' +
+        '</div>' +
+        '<div class="wu-obs">Mantenha cada posição por 30–60 segundos sem forçar. Respire profundamente. Foco em quadríceps, isquiotibiais, glúteo e panturrilha.</div>' +
+        '<div style="display:flex;align-items:center;gap:7px;margin-top:10px;padding:7px 10px;background:var(--s2);border:1px solid var(--border2);border-radius:7px">' +
+          '<span style="font-size:11px;color:var(--cyan)">▶</span>' +
+          '<a href="https://pin.it/37lceAfg4" target="_blank" style="font-size:12px;color:var(--cyan);text-decoration:none">Referência visual — Pinterest</a>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="total"><span>Duração estimada</span><span>5 min</span></div>';
+}
+
+// ── INTERAÇÕES ────────────────────────────────────────────────────────────────
+window.savePeso = function(key,id,val){ pesos[key][id]=val; };
+
+window.toggleEx = function(key,gi,ei){
+  var id=key+'-'+gi+'-'+ei;
+  checks[key][id]=!checks[key][id];
+  var isDone=checks[key][id], t=TREINOS[key];
+  var row=document.getElementById('row-'+id);
+  var chk=document.getElementById('chk-'+id);
+  if(row) row.classList.toggle('done',isDone);
+  if(chk){ chk.classList.toggle('done',isDone); chk.style.background=isDone?t.acc:''; chk.innerHTML=isDone?'✓':''; }
+  var total=totalExs(key), done=doneCount(key);
+  var pct=total>0?Math.round(done/total*100):0;
+  var bar=document.getElementById('bar-'+key);
+  var pctEl=document.getElementById('pct-'+key);
+  var sdone=document.getElementById('sdone-'+key);
+  if(bar) bar.style.width=pct+'%';
+  if(pctEl) pctEl.textContent=pct+'%';
+  if(sdone) sdone.textContent=done+'/'+total;
+};
+
+window.togGrupo = function(bodyId,chevId){
+  var body=document.getElementById(bodyId), chev=document.getElementById(chevId);
+  if(!body||!chev) return;
+  chev.style.transform=body.classList.toggle('open')?'':'rotate(-90deg)';
+};
+
+function switchTab(k){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');});
+  var el=document.getElementById('tab-'+k);
+  if(el) el.classList.add('active');
+  var idx=TAB_ORDER.indexOf(k);
+  var btns=document.querySelectorAll('.nav-btn');
+  if(btns[idx]) btns[idx].classList.add('active');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+buildWarmup();
+['pa','pb'].forEach(buildTreino);
+buildAlong();
+</script>
+</body>
+</html>
