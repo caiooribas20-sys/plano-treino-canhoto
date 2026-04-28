@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treino de Perna — Força e Potência</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;900&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #09090D;
+    --s1:        #101015;
+    --s2:        #16161D;
+    --s3:        #1C1C25;
+    --border:    rgba(255,255,255,0.055);
+    --border2:   rgba(255,255,255,0.10);
+    --text:      #ECEEF4;
+    --text2:     #6B7285;
+    --text3:     #3A3D50;
+    --emerald:   #34D399;
+    --em-dim:    rgba(52,211,153,0.09);
+    --sky:       #38BDF8;
+    --sk-dim:    rgba(56,189,248,0.09);
+    --violet:    #A78BFA;
+    --vi-dim:    rgba(167,139,250,0.09);
+    --amber:     #FCD34D;
+    --am-dim:    rgba(252,211,77,0.09);
+    --rose:      #FB7185;
+    --ro-dim:    rgba(251,113,133,0.09);
+    --orange:    #FB923C;
+    --or-dim:    rgba(251,146,60,0.09);
+  }
+
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+  body {
+    font-family:'DM Sans',sans-serif;
+    background:var(--bg); color:var(--text);
+    min-height:100vh; padding:1.5rem;
+    display:flex; justify-content:center; align-items:flex-start;
+  }
+
+  .card {
+    width:100%; max-width:610px;
+    background:var(--s1); border:1px solid var(--border);
+    border-radius:18px; overflow:hidden;
+    box-shadow:0 40px 100px rgba(0,0,0,0.72);
+    animation:up .4s ease both;
+  }
+  @keyframes up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+  /* HERO */
+  .hero {
+    padding:1.5rem 1.5rem 1.25rem;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(135deg,rgba(52,211,153,0.05) 0%,transparent 55%);
+    position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:'FORÇA';
+    position:absolute; right:-4px; bottom:-8px;
+    font-family:'Unbounded',sans-serif;
+    font-size:70px; font-weight:900;
+    color:rgba(52,211,153,0.03);
+    pointer-events:none; user-select:none; line-height:1;
+  }
+  .hero-tag {
+    font-family:'DM Mono',monospace;
+    font-size:10px; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--emerald); margin-bottom:8px;
+  }
+  .hero-title {
+    font-family:'Unbounded',sans-serif;
+    font-size:22px; font-weight:700;
+    line-height:1.15; margin-bottom:5px; letter-spacing:-0.02em;
+  }
+  .hero-sub { font-size:13px; color:var(--text2); line-height:1.6; max-width:430px; }
+  .badge-row { display:flex; gap:5px; flex-wrap:wrap; margin-top:12px; }
+  .badge {
+    font-size:10px; font-weight:600;
+    padding:2px 9px; border-radius:99px;
+    border:1px solid; letter-spacing:0.04em; text-transform:uppercase;
+  }
+  .bem { background:var(--em-dim); color:var(--emerald); border-color:rgba(52,211,153,0.3); }
+  .bsk { background:var(--sk-dim);  color:var(--sky);     border-color:rgba(56,189,248,0.3); }
+  .bvi { background:var(--vi-dim);  color:var(--violet);  border-color:rgba(167,139,250,0.3); }
+  .bam { background:var(--am-dim);  color:var(--amber);   border-color:rgba(252,211,77,0.3); }
+  .bro { background:var(--ro-dim);  color:var(--rose);    border-color:rgba(251,113,133,0.3); }
+  .bxx { background:var(--s2);      color:var(--text2);   border-color:var(--border2); }
+
+  /* NAV */
+  .nav { display:flex; gap:4px; padding:10px 10px 0; flex-wrap:wrap; }
+  .nav-btn {
+    flex:1; min-width:70px; padding:8px 4px;
+    font-family:'DM Sans',sans-serif;
+    font-size:11px; font-weight:600;
+    border:1px solid var(--border); border-radius:8px;
+    background:transparent; color:var(--text2);
+    cursor:pointer; transition:all .18s; text-align:center;
+  }
+  .nav-btn:hover { color:var(--text); border-color:var(--border2); }
+  .nav-btn.em.active { background:var(--em-dim); color:var(--emerald); border-color:rgba(52,211,153,0.35); }
+  .nav-btn.sk.active { background:var(--sk-dim);  color:var(--sky);    border-color:rgba(56,189,248,0.35); }
+  .nav-btn.vi.active { background:var(--vi-dim);  color:var(--violet); border-color:rgba(167,139,250,0.35); }
+  .nav-btn.am.active { background:var(--am-dim);  color:var(--amber);  border-color:rgba(252,211,77,0.35); }
+
+  /* TABS */
+  .tab { display:none; }
+  .tab.active { display:block; animation:fi .2s ease both; }
+  @keyframes fi { from{opacity:0} to{opacity:1} }
+
+  /* T-HEADER */
+  .t-header {
+    padding:1.1rem 1.5rem .9rem;
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:14px;
+  }
+  .t-num {
+    font-family:'Unbounded',sans-serif;
+    font-size:36px; font-weight:900;
+    line-height:1; opacity:.07; flex-shrink:0;
+  }
+  .t-meta { flex:1; }
+  .t-name { font-family:'Unbounded',sans-serif; font-size:15px; font-weight:700; margin-bottom:3px; letter-spacing:-0.01em; }
+  .t-desc { font-size:12px; color:var(--text2); line-height:1.5; }
+
+  /* INFO BOX */
+  .info-box {
+    margin:0 1.5rem 0;
+    padding:10px 13px; border-radius:8px;
+    font-size:12.5px; line-height:1.65; border:1px solid;
+  }
+  .info-em   { background:var(--em-dim); color:#86EFAC; border-color:rgba(52,211,153,0.2); }
+  .info-sk   { background:var(--sk-dim); color:#A5DCFA; border-color:rgba(56,189,248,0.2); }
+  .info-am   { background:var(--am-dim); color:#F5D080; border-color:rgba(252,211,77,0.2); }
+  .info-ro   { background:var(--ro-dim); color:#FCA5A5; border-color:rgba(251,113,133,0.2); }
+  .info-box strong { font-weight:600; }
+
+  /* SUMMARY */
+  .summary { display:flex; border-bottom:1px solid var(--border); margin-top:12px; }
+  .sum-item { flex:1; padding:10px 0; text-align:center; border-right:1px solid var(--border); }
+  .sum-item:last-child { border-right:none; }
+  .sum-val { font-family:'DM Mono',monospace; font-size:17px; font-weight:500; }
+  .sum-lbl { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:0.06em; margin-top:2px; }
+
+  /* PROGRESS */
+  .prog-wrap { display:flex; align-items:center; gap:10px; padding:8px 1.5rem; border-bottom:1px solid var(--border); }
+  .prog-bg   { flex:1; height:3px; background:var(--s3); border-radius:99px; overflow:hidden; }
+  .prog-fill { height:100%; border-radius:99px; transition:width .3s ease; width:0%; }
+  .prog-lbl  { font-family:'DM Mono',monospace; font-size:10px; color:var(--text3); min-width:32px; text-align:right; }
+
+  /* GRUPO */
+  .grupo { border-bottom:1px solid var(--border); }
+  .grupo:last-of-type { border-bottom:none; }
+  .grupo-hd {
+    display:flex; align-items:center; gap:10px;
+    padding:9px 1.5rem; cursor:pointer; user-select:none;
+    transition:background .15s;
+  }
+  .grupo-hd:hover { background:var(--s2); }
+  .grupo-dot   { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+  .grupo-name  { font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text2); flex:1; }
+  .grupo-count { font-family:'DM Mono',monospace; font-size:10px; color:var(--text3); }
+  .grupo-chev  { font-size:8px; color:var(--text3); transition:transform .22s; }
+  .grupo-body  { max-height:0; overflow:hidden; transition:max-height .32s ease; }
+  .grupo-body.open { max-height:1000px; }
+
+  /* EX ROW */
+  .ex-row {
+    display:grid;
+    grid-template-columns:20px 1fr auto auto 22px;
+    gap:8px; align-items:center;
+    padding:9px 1.5rem;
+    border-top:1px solid var(--border);
+    transition:background .12s;
+  }
+  .ex-row:hover { background:var(--s2); }
+  .ex-idx  { font-family:'DM Mono',monospace; font-size:10px; color:var(--text3); text-align:center; }
+  .ex-info { min-width:0; }
+  .ex-name { font-size:13px; font-weight:500; line-height:1.35; }
+  .ex-note { font-size:11px; color:var(--text2); margin-top:2px; line-height:1.4; }
+  .ex-row.done .ex-name { text-decoration:line-through; color:var(--text3); }
+
+  .ex-chips { display:flex; gap:4px; flex-direction:column; align-items:flex-end; flex-shrink:0; }
+  .chip {
+    font-family:'DM Mono',monospace;
+    font-size:10px; font-weight:500;
+    padding:2px 7px; border-radius:4px;
+    border:1px solid; white-space:nowrap;
+  }
+  .chip-vol  { background:var(--s2); color:var(--text2); border-color:var(--border2); }
+  .chip-rest { background:transparent; color:var(--text3); border-color:var(--border); }
+  .chip-acc  { border-color:transparent; }
+
+  .sub-pill {
+    display:inline-block; font-size:10px; font-weight:600;
+    padding:1px 7px; border-radius:4px;
+    background:var(--am-dim); color:var(--amber);
+    border:1px solid rgba(252,211,77,0.25);
+    margin-top:3px;
+  }
+  .prog-pill {
+    display:inline-block; font-size:10px; font-weight:600;
+    padding:1px 7px; border-radius:4px;
+    background:var(--em-dim); color:var(--emerald);
+    border:1px solid rgba(52,211,153,0.25);
+    margin-top:3px;
+  }
+  .warn-pill {
+    display:inline-block; font-size:10px; font-weight:600;
+    padding:1px 7px; border-radius:4px;
+    background:var(--ro-dim); color:var(--rose);
+    border:1px solid rgba(251,113,133,0.25);
+    margin-top:3px;
+  }
+
+  /* PESO */
+  .peso-wrap { position:relative; width:58px; flex-shrink:0; }
+  .peso-input {
+    width:100%; padding:4px 18px 4px 6px;
+    background:var(--s2); border:1px solid var(--border2);
+    border-radius:6px; color:var(--text);
+    font-family:'DM Mono',monospace; font-size:11px;
+    outline:none; transition:border-color .15s; text-align:right;
+  }
+  .peso-input:focus { border-color:var(--emerald); }
+  .peso-unit {
+    position:absolute; right:5px; top:50%; transform:translateY(-50%);
+    font-size:9px; color:var(--text3); pointer-events:none;
+    font-family:'DM Mono',monospace;
+  }
+
+  /* CHECK */
+  .ex-check {
+    width:22px; height:22px; border-radius:6px;
+    border:1.5px solid var(--border2);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:all .15s; font-size:11px; flex-shrink:0;
+  }
+  .ex-check.done { border-color:transparent; color:var(--bg); }
+
+  /* WARMUP ROW */
+  .wu-row {
+    padding:12px 1.5rem;
+    border-bottom:1px solid var(--border);
+    display:grid; grid-template-columns:22px 1fr;
+    gap:10px; align-items:start;
+    transition:background .12s;
+  }
+  .wu-row:last-child { border-bottom:none; }
+  .wu-row:hover { background:var(--s2); }
+  .wu-num   { font-family:'DM Mono',monospace; font-size:11px; color:var(--text3); padding-top:2px; }
+  .wu-name  { font-size:13px; font-weight:600; margin-bottom:3px; }
+  .wu-obs   { font-size:11.5px; color:var(--text); line-height:1.55; margin-top:5px; }
+  .wu-chips { display:flex; gap:4px; flex-wrap:wrap; }
+  .wu-chip  {
+    font-size:10px; font-weight:600;
+    padding:2px 8px; border-radius:4px; border:1px solid; white-space:nowrap;
+  }
+  .wc-em { background:var(--em-dim); color:var(--emerald); border-color:rgba(52,211,153,0.3); }
+  .wc-am { background:var(--am-dim); color:var(--amber);   border-color:rgba(252,211,77,0.3); }
+  .wc-sk { background:var(--sk-dim); color:var(--sky);     border-color:rgba(56,189,248,0.3); }
+
+  /* CHECK BOX PÓS-SESSÃO */
+  .check-box {
+    margin:12px 1.5rem 0;
+    padding:10px 13px;
+    background:var(--sk-dim); border:1px solid rgba(56,189,248,0.2);
+    border-radius:8px; font-size:12px; color:#A5DCFA; line-height:1.6;
+  }
+  .check-box strong { color:var(--sky); font-weight:600; }
+
+  /* ALONG */
+  .along-row {
+    padding:12px 1.5rem;
+    border-bottom:1px solid var(--border);
+    display:grid; grid-template-columns:22px 1fr;
+    gap:10px;
+  }
+  .along-row:last-child { border-bottom:none; }
+
+  /* REFERÊNCIAS */
+  .ref-row {
+    padding:8px 1.5rem;
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:flex-start; gap:10px;
+    transition:background .12s;
+  }
+  .ref-row:last-child { border-bottom:none; }
+  .ref-num { font-family:'DM Mono',monospace; font-size:10px; color:var(--text3); flex-shrink:0; padding-top:2px; }
+  .ref-text { font-size:11.5px; color:var(--text2); line-height:1.55; }
+  .ref-text strong { color:var(--text); font-weight:600; }
+
+  /* TOTAL */
+  .total {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 1.5rem; background:var(--s2); border-top:1px solid var(--border);
+  }
+  .total span:first-child { font-size:12.5px; color:var(--text2); }
+  .total span:last-child  { font-family:'DM Mono',monospace; font-size:13px; color:var(--text2); }
+
+  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:var(--border2); border-radius:4px; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Perna · Força + Potência · Futebol</div>
+    <div class="hero-title">Treino de Perna</div>
+    <div class="hero-sub">Duas semanas alternadas — Semana A foca força base, Semana B foca potência e velocidade. Baseado nos princípios FIFA e Michael Boyle.</div>
+    <div class="badge-row">
+      <span class="badge bam">🔥 Ativação FIFA11+</span>
+      <span class="badge bem">Semana A · Força</span>
+      <span class="badge bvi">Semana B · Potência</span>
+      <span class="badge bsk">Alongamento</span>
+      <span class="badge bxx">Foco: força ≠ hipertrofia</span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <button class="nav-btn am active" onclick="switchTab('warm')">🔥 Ativação</button>
+    <button class="nav-btn em"        onclick="switchTab('sa')">Semana A</button>
+    <button class="nav-btn vi"        onclick="switchTab('sb')">Semana B</button>
+    <button class="nav-btn sk"        onclick="switchTab('alon')">Alongamento</button>
+  </div>
+
+  <div id="tab-warm" class="tab active"></div>
+  <div id="tab-sa"   class="tab"></div>
+  <div id="tab-sb"   class="tab"></div>
+  <div id="tab-alon" class="tab"></div>
+
+</div>
+
+<script>
+var TAB_ORDER = ['warm','sa','sb','alon'];
+
+// ── ATIVAÇÃO FIFA11+ ──────────────────────────────────────────────────────────
+var WARMUP = [
+  {
+    nome:'Corrida em diferentes intensidades',
+    chips:[{l:'2 min',c:'wc-em'},{l:'FIFA11+',c:'wc-sk'}],
+    obs:'Trote leve → corrida com rotação de quadril → corrida com chute para frente → skipping. Ativa sistema cardiovascular e padrão de corrida.'
+  },
+  {
+    nome:'Mobilidade dinâmica de quadril',
+    chips:[{l:'30 s / movimento',c:'wc-em'},{l:'3 movimentos',c:'wc-am'}],
+    obs:'Círculos com o joelho → abertura lateral → joelho ao peito. Foco no ângulo de quadril — determinante para força no agachamento e RDL.'
+  },
+  {
+    nome:'TKE — Terminal Knee Extension (miniband)',
+    chips:[{l:'2 × 15 / perna',c:'wc-em'},{l:'Faixa elástica',c:'wc-sk'}],
+    obs:'Banda atrás do joelho, pé apoiado. Estenda o joelho contra a resistência. Ativa VMO e estabiliza a patela antes de qualquer carga.'
+  },
+  {
+    nome:'Miniband Walk Lateral',
+    chips:[{l:'2 × 10 passos / lado',c:'wc-em'},{l:'Faixa elástica',c:'wc-sk'}],
+    obs:'Postura semi-agachada. Passos uniformes sem colapsar os joelhos. Ativa glúteo médio — essencial para estabilidade em sprint e mudança de direção.'
+  },
+  {
+    nome:'Agachamento com peso corporal',
+    chips:[{l:'2 × 10',c:'wc-em'}],
+    obs:'Progressivo: 1ª série calmo, 2ª série com intenção de subida rápida. Prepara o padrão motor e ativa o sistema nervoso antes da carga.'
+  },
+  {
+    nome:'Afundo alternado dinâmico',
+    chips:[{l:'2 × 8 / perna',c:'wc-em'}],
+    obs:'Tronco ereto, joelho dianteiro alinha com o pé. Simula o padrão unilateral dos exercícios principais — não pule este passo.'
+  }
+];
+
+// ── TREINOS ───────────────────────────────────────────────────────────────────
+var TREINOS = {
+  sa: {
+    nome:'Semana A — Força Base',
+    desc:'Objetivo: construir base de força, estabilidade e proteção articular · 3–6 reps nos principais, 6–8 nos acessórios',
+    acc:'#34D399', dim:'rgba(52,211,153,0.09)', bor:'rgba(52,211,153,0.3)', num:'A',
+    info: { type:'info-em', text:'<strong>Lógica desta semana:</strong> foco em força com segurança, não volume muscular. Menos reps, mais descanso, intenção de execução forte. O futebol exige fuerza máxima — e ela tem correlação direta com velocidade em 10 e 30 m (Wisloff et al., 2004).' },
+    grupos:[
+      { nome:'Quadríceps — Força Principal', exs:[
+        {
+          nome:'Hack Squat ou Leg Press (pé alto)',
+          vol:'3 × 5–6', rest:'2–3 min', tempo:'3/0/1',
+          note:'Pés bem apoiados. Joelho acompanha a linha do pé. Descida controlada (3 s), subida forte com intenção de empurrar o chão. Não trave o joelho no final.',
+          sub:'Leg Press bilateral pé alto (joelho sensível)',
+          prog:'Aumentar 2–5% se técnica e velocidade mantidas'
+        }
+      ]},
+      { nome:'Glúteo + Posterior — Força', exs:[
+        {
+          nome:'Hip Thrust com Barra ou Máquina',
+          vol:'3 × 5–6', rest:'2 min', tempo:'2/1/1',
+          note:'Queixo levemente recolhido. Costelas "baixas" — não hiperestendar a lombar. Suba até alinhar tronco e coxa. Contraia glúteo no topo e segure 1 s.',
+          sub:'Hip Thrust unilateral com carga leve',
+          prog:'Aumentar 2–5% se pico de contração controlado'
+        }
+      ]},
+      { nome:'Isquiotibiais — Proteção', exs:[
+        {
+          nome:'Mesa Flexora Sentada ou Deitada',
+          vol:'3 × 6–8', rest:'90 s', tempo:'2/0/3',
+          note:'Quadril firme no banco. Subida forte, retorno controlado em 3 s. Pausa curta no pico da contração. Sem roubar com o tronco.',
+          sub:null,
+          prog:'Aumentar carga se técnica estável — priorize o excêntrico'
+        }
+      ]},
+      { nome:'Unilateral — Transferência Esportiva', exs:[
+        {
+          nome:'Afundo Estático ou Búlgaro com Carga',
+          vol:'2–3 × 5–6 / perna', rest:'90 s', tempo:'3/0/1',
+          note:'Tronco levemente inclinado à frente. Joelho da frente alinhado ao pé. Passada estável, amplitude menor se houver instabilidade. Futebol exige muito trabalho unilateral.',
+          sub:'Step-up controlado com carga leve',
+          prog:'Progressão de carga ou amplitude a cada semana'
+        }
+      ]},
+      { nome:'Panturrilha', exs:[
+        {
+          nome:'Panturrilha na Máquina (em pé ou sentado)',
+          vol:'3 × 8–10', rest:'60–90 s', tempo:'2/1/3',
+          note:'Subida completa com pausa 1 s no topo. Descida lenta (3 s). Sem quicar. Amplitude total — essencial para impulsão, desaceleração e proteção de tornozelo.',
+          sub:null, prog:'Aumentar carga progressiva'
+        }
+      ]},
+      { nome:'Core — Anti-Rotação', exs:[
+        {
+          nome:'Pallof Press ou Prancha Lateral',
+          vol:'3 × 20–25 s / lado', rest:'45 s', tempo:'Isométrico',
+          note:'Quadril estável, coluna neutra. Sem compensar com a lombar. Core forte melhora transmissão de força e reduz risco de lesão em mudanças de direção.',
+          sub:'Dead-bug 3 × 8 / lado',
+          prog:'Aumentar tempo ou adicionar variação dinâmica'
+        }
+      ]}
+    ],
+    checkBox:'<strong>Check pós-sessão:</strong> Anotar dor pré/pós (0–10), RPE médio. Se disponível: CMJ (Counter Movement Jump) para referência de potência.'
+  },
+
+  sb: {
+    nome:'Semana B — Potência Controlada',
+    desc:'Objetivo: gerar velocidade, explosão e transferência esportiva · Execução rápida e perfeita · Qualidade não cai',
+    acc:'#A78BFA', dim:'rgba(167,139,250,0.09)', bor:'rgba(167,139,250,0.3)', num:'B',
+    info: { type:'info-sk', text:'<strong>Lógica desta semana:</strong> poucas repetições, execução máxima, descanso completo. O FIFA (NSCA, 2007) confirma: pico de potência muscular em futebol é atingido com 3–5 reps a 75–85% 1RM. Não é volume — é intenção.' },
+    grupos:[
+      { nome:'Potência — Membros Inferiores', exs:[
+        {
+          nome:'Step-up Explosivo em Caixa Baixa',
+          vol:'3 × 3–5 / perna', rest:'60–90 s', tempo:'Concêntrico máximo',
+          note:'Caixa baixa (20–30 cm). Subida explosiva com intenção máxima. Pé de apoio firme. Não impulsionar exageradamente com a perna de trás. Descer controlando.',
+          sub:'Leg Press com intenção de velocidade',
+          prog:'Aumentar altura da caixa ou carga progressiva'
+        },
+        {
+          nome:'Leg Press com Intenção de Velocidade',
+          vol:'3 × 4–5', rest:'2 min', tempo:'3/0/máximo',
+          note:'Descida controlada (3 s). Subida explosiva — máxima velocidade intencional. Não travar a articulação. Carga moderada (60–70% 1RM) para manter velocidade real.',
+          sub:null,
+          prog:'Aumentar carga se velocidade de execução mantida'
+        }
+      ]},
+      { nome:'Posterior — Padrão de Quadril', exs:[
+        {
+          nome:'RDL com Halteres ou Barra (leve-moderada)',
+          vol:'3 × 5', rest:'2 min', tempo:'3/0/1',
+          note:'Joelhos levemente flexionados. Quadril vai para trás — não agache. Coluna neutra, barra/halteres próximos da perna. Descer até perfeita postura, subir contraindo glúteo. Melhor que pull-through para força e prevenção.',
+          sub:'RDL Trap-bar bilateral',
+          prog:'Aumentar carga gradual — priorizar simetria'
+        },
+        {
+          nome:'Mesa Flexora — Excêntrico Rápido',
+          vol:'3 × 6–8', rest:'90 s', tempo:'1/0/3',
+          note:'Subida rápida (1 s). Retorno lento (3 s) — foco no excêntrico. Sem compensar com quadril. Diferente da Semana A: aqui o excêntrico é o estímulo principal.',
+          sub:null,
+          prog:'Aumentar carga se técnica estável'
+        }
+      ]},
+      { nome:'Prevenção — Glúteo e Adutores', exs:[
+        {
+          nome:'Conchinha com Miniband',
+          vol:'3 × 15 / lado', rest:'30 s', tempo:'Controlado',
+          note:'Deitado de lado, faixa acima dos joelhos. Pé fixo, abra o joelho. Ativa glúteo médio — previne lesões de adutor e melhora estabilidade em sprints.',
+          sub:null,
+          prog:'Progressão da resistência da faixa'
+        },
+        {
+          nome:'Band Walks Laterais (Miniband)',
+          vol:'3 × 20 passos', rest:'30 s', tempo:'Controlado',
+          note:'Postura semi-agachada. Passos uniformes sem colapsar os joelhos. Continuação da conchinha — mesma musculatura, padrão funcional de movimento.',
+          sub:null,
+          prog:'Progressão da resistência da faixa'
+        }
+      ]},
+      { nome:'Panturrilha', exs:[
+        {
+          nome:'Panturrilha na Máquina — Explosiva',
+          vol:'3 × 10–12', rest:'60 s', tempo:'1/1/2',
+          note:'Subida explosiva (1 s), pausa 1 s no topo, descida lenta (2 s). Volume ligeiramente maior que Semana A — cadência diferente para estímulo novo.',
+          sub:null, prog:'Aumentar carga progressiva'
+        }
+      ]},
+      { nome:'Core — Estabilidade Dinâmica', exs:[
+        {
+          nome:'Dead-bug',
+          vol:'3 × 6–8 / lado', rest:'45 s', tempo:'Controlado',
+          note:'Lombar neutra o tempo todo. Braço e perna opostos se movem juntos. Sem pressa. Movimento controlado melhora co-ativação e transmissão de força entre tronco e quadril.',
+          sub:'Prancha lateral 3 × 30 s',
+          prog:'Aumentar reps com técnica perfeita'
+        }
+      ]}
+    ],
+    checkBox:'<strong>Check pós-sessão:</strong> Anotar dor pré/pós em cada perna separado (0–10). RPE médio. Notar assimetrias de força ou amplitude para ajuste da próxima sessão.'
+  }
+};
+
+// ── ESTADO ────────────────────────────────────────────────────────────────────
+var checks = {sa:{},sb:{}};
+var pesos  = {sa:{},sb:{}};
+
+// ── BUILD ATIVAÇÃO ────────────────────────────────────────────────────────────
+function buildWarmup() {
+  var tab = document.getElementById('tab-warm');
+  var rows = WARMUP.map(function(w,i) {
+    var chips = w.chips.map(function(c){ return '<span class="wu-chip '+c.c+'">'+c.l+'</span>'; }).join('');
+    return '<div class="wu-row">' +
+      '<span class="wu-num">'+(i+1)+'</span>' +
+      '<div>' +
+        '<div class="wu-name">'+w.nome+'</div>' +
+        '<div class="wu-chips">'+chips+'</div>' +
+        '<div class="wu-obs">'+w.obs+'</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  tab.innerHTML =
+    '<div class="t-header">' +
+      '<div class="t-num" style="color:var(--amber)">00</div>' +
+      '<div class="t-meta">' +
+        '<div class="t-name" style="color:var(--amber)">Ativação Dinâmica — FIFA11+ adaptado</div>' +
+        '<div class="t-desc">Obrigatório antes dos dois treinos — 6 a 8 minutos · Sair "aceso", não cansado</div>' +
+      '</div>' +
+    '</div>' +
+    '<div style="padding:10px 1.5rem 8px">' +
+      '<div class="info-box info-am">'+
+        '<strong>Por que o FIFA11+?</strong> O protocolo reduziu lesões de joelho em até 50% em jogadores de futebol. O aquecimento abaixo é baseado nele, com ênfase na ativação neural antes da carga pesada.' +
+      '</div>' +
+    '</div>' +
+    '<div>'+rows+'</div>' +
+    '<div class="total"><span>Duração estimada</span><span>6–8 min</span></div>';
+}
+
+// ── BUILD TREINO ──────────────────────────────────────────────────────────────
+function totalExs(key){ var n=0; TREINOS[key].grupos.forEach(function(g){n+=g.exs.length;}); return n; }
+function doneCount(key){ return Object.values(checks[key]).filter(Boolean).length; }
+function totalSeries(key){
+  var n=0;
+  TREINOS[key].grupos.forEach(function(g){
+    g.exs.forEach(function(e){
+      var m = e.vol.match(/(\d+)\s*[×x]/);
+      if(m) n+=parseInt(m[1]);
+    });
+  });
+  return n;
+}
+
+function buildTreino(key) {
+  var t=TREINOS[key], tab=document.getElementById('tab-'+key);
+  var total=totalExs(key), done=doneCount(key);
+  var pct=total>0?Math.round(done/total*100):0;
+
+  var exGlobal=0;
+  var gruposHtml = t.grupos.map(function(g,gi){
+    var exsHtml = g.exs.map(function(ex,ei){
+      exGlobal++;
+      var id=key+'-'+gi+'-'+ei, isDone=checks[key][id]||false, peso=pesos[key][id]||'';
+      var pills='';
+      if(ex.sub)  pills += '<span class="sub-pill">↔ '+ex.sub+'</span> ';
+      if(ex.prog) pills += '<br><span class="prog-pill">↑ '+ex.prog+'</span>';
+      return '<div class="ex-row'+(isDone?' done':'')+'" id="row-'+id+'">' +
+        '<span class="ex-idx">'+exGlobal+'</span>' +
+        '<div class="ex-info">' +
+          '<div class="ex-name">'+ex.nome+'</div>' +
+          (ex.note?'<div class="ex-note">'+ex.note+'</div>':'') +
+          (pills?'<div style="margin-top:4px">'+pills+'</div>':'') +
+        '</div>' +
+        '<div class="ex-chips">' +
+          '<span class="chip chip-vol">'+ex.vol+'</span>' +
+          '<span class="chip chip-rest">'+ex.rest+'</span>' +
+          (ex.tempo?'<span class="chip chip-rest" style="font-size:9px">'+ex.tempo+'</span>':'') +
+        '</div>' +
+        '<div class="peso-wrap">' +
+          '<input class="peso-input" type="number" min="0" step="0.5" placeholder="—" value="'+peso+'" ' +
+            'oninput="savePeso(\''+key+'\',\''+id+'\',this.value)">' +
+          '<span class="peso-unit">kg</span>' +
+        '</div>' +
+        '<div class="ex-check'+(isDone?' done':'')+'" id="chk-'+id+'" ' +
+          'style="'+(isDone?'background:'+t.acc+';':'')+'" ' +
+          'onclick="toggleEx(\''+key+'\','+gi+','+ei+')">' +
+          (isDone?'✓':'') +
+        '</div>' +
+      '</div>';
+    }).join('');
+    var bodyId='gbody-'+key+'-'+gi, chevId='gchev-'+key+'-'+gi;
+    return '<div class="grupo">' +
+      '<div class="grupo-hd" onclick="togGrupo(\''+bodyId+'\',\''+chevId+'\')">' +
+        '<div class="grupo-dot" style="background:'+t.acc+'"></div>' +
+        '<span class="grupo-name">'+g.nome+'</span>' +
+        '<span class="grupo-count">'+g.exs.length+' ex.</span>' +
+        '<span class="grupo-chev" id="'+chevId+'">▼</span>' +
+      '</div>' +
+      '<div class="grupo-body open" id="'+bodyId+'">'+exsHtml+'</div>' +
+    '</div>';
+  }).join('');
+
+  tab.innerHTML =
+    '<div class="t-header">' +
+      '<div class="t-num" style="color:'+t.acc+'">'+t.num+'</div>' +
+      '<div class="t-meta">' +
+        '<div class="t-name" style="color:'+t.acc+'">'+t.nome+'</div>' +
+        '<div class="t-desc">'+t.desc+'</div>' +
+      '</div>' +
+    '</div>' +
+    '<div style="padding:10px 1.5rem 0"><div class="info-box '+t.info.type+'">'+t.info.text+'</div></div>' +
+    '<div class="summary">' +
+      '<div class="sum-item"><div class="sum-val" style="color:'+t.acc+'">'+total+'</div><div class="sum-lbl">Exercícios</div></div>' +
+      '<div class="sum-item"><div class="sum-val" style="color:'+t.acc+'">'+totalSeries(key)+'</div><div class="sum-lbl">Séries</div></div>' +
+      '<div class="sum-item"><div class="sum-val" style="color:'+t.acc+'">'+t.grupos.length+'</div><div class="sum-lbl">Grupos</div></div>' +
+      '<div class="sum-item"><div class="sum-val" style="color:'+t.acc+'" id="sdone-'+key+'">'+done+'/'+total+'</div><div class="sum-lbl">Feitos</div></div>' +
+    '</div>' +
+    '<div class="prog-wrap">' +
+      '<div class="prog-bg"><div class="prog-fill" id="bar-'+key+'" style="width:'+pct+'%;background:'+t.acc+'"></div></div>' +
+      '<span class="prog-lbl" id="pct-'+key+'">'+pct+'%</span>' +
+    '</div>' +
+    '<div>'+gruposHtml+'</div>' +
+    '<div class="check-box">'+t.checkBox+'</div>' +
+    '<div class="total"><span>Volume total</span><span>'+totalSeries(key)+' séries</span></div>';
+}
+
+// ── BUILD ALONGAMENTO ─────────────────────────────────────────────────────────
+function buildAlong() {
+  var tab = document.getElementById('tab-alon');
+  var itens = [
+    { nome:'Quadríceps (em pé ou deitado)', obs:'30 s cada perna. Joelho dobrado, calcanhar ao glúteo. Mantenha postura ereta — não incline o tronco.', chips:[{l:'30 s / lado',c:'wc-em'},{l:'Estático',c:'wc-am'}] },
+    { nome:'Isquiotibiais (perna estendida)', obs:'30 s cada perna. Incline o tronco à frente mantendo a coluna reta — não curve as costas. Sentir o alongamento na parte posterior da coxa.', chips:[{l:'30 s / lado',c:'wc-em'},{l:'Estático',c:'wc-am'}] },
+    { nome:'Glúteo (cruzado ou pombo)', obs:'30 s cada lado. Cruzar o tornozelo sobre o joelho oposto e empurrar o joelho suavemente. Essencial após hip thrust e RDL.', chips:[{l:'30 s / lado',c:'wc-em'},{l:'Estático',c:'wc-am'}] },
+    { nome:'Panturrilha (apoio na parede)', obs:'20 s em cada posição (joelho estendido + joelho dobrado). Cobre gastrocnêmio e sóleo — músculos mais sobrecarregados hoje.', chips:[{l:'20 s × 2 posições',c:'wc-em'},{l:'Estático',c:'wc-am'}] },
+    { nome:'Hip flexor / psoas (afundo baixo)', obs:'30 s cada lado. Joelho traseiro no chão, quadril avança. Braço do mesmo lado vai para cima. Restaura extensão de quadril — diretamente ligada à qualidade do sprint.', chips:[{l:'30 s / lado',c:'wc-em'},{l:'Dinâmico→Estático',c:'wc-sk'}] }
+  ];
+
+  var rows = itens.map(function(it,i){
+    var chips = it.chips.map(function(c){ return '<span class="wu-chip '+c.c+'">'+c.l+'</span>'; }).join('');
+    return '<div class="along-row">' +
+      '<span class="wu-num">'+(i+1)+'</span>' +
+      '<div>' +
+        '<div class="wu-name">'+it.nome+'</div>' +
+        '<div class="wu-chips" style="margin:4px 0">'+chips+'</div>' +
+        '<div class="wu-obs" style="color:var(--text2)">'+it.obs+'</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  tab.innerHTML =
+    '<div class="t-header">' +
+      '<div class="t-num" style="color:var(--sky)">FIM</div>' +
+      '<div class="t-meta">' +
+        '<div class="t-name" style="color:var(--sky)">Alongamento Final</div>' +
+        '<div class="t-desc">Após qualquer treino de perna — flexibilidade passiva, mantida 20–30 s (FIFA)</div>' +
+      '</div>' +
+    '</div>' +
+    '<div style="padding:10px 1.5rem 8px">' +
+      '<div class="info-box info-sk">'+
+        '<strong>Por que depois e não antes?</strong> O FIFA recomenda flexibilidade dinâmica no aquecimento e passiva no final. Alongamento estático antes do treino reduz a produção de força — exatamente o que queremos evitar em treino de força/potência.' +
+      '</div>' +
+    '</div>' +
+    '<div>'+rows+'</div>' +
+    '<div class="total"><span>Duração estimada</span><span>5–7 min</span></div>';
+}
+
+// ── INTERAÇÕES ────────────────────────────────────────────────────────────────
+window.savePeso = function(key,id,val){ pesos[key][id]=val; };
+
+window.toggleEx = function(key,gi,ei){
+  var id=key+'-'+gi+'-'+ei;
+  checks[key][id]=!checks[key][id];
+  var isDone=checks[key][id], t=TREINOS[key];
+  var row=document.getElementById('row-'+id);
+  var chk=document.getElementById('chk-'+id);
+  if(row) row.classList.toggle('done',isDone);
+  if(chk){ chk.classList.toggle('done',isDone); chk.style.background=isDone?t.acc:''; chk.innerHTML=isDone?'✓':''; }
+  var total=totalExs(key), done=doneCount(key);
+  var pct=total>0?Math.round(done/total*100):0;
+  var bar=document.getElementById('bar-'+key);
+  var pctEl=document.getElementById('pct-'+key);
+  var sdone=document.getElementById('sdone-'+key);
+  if(bar) bar.style.width=pct+'%';
+  if(pctEl) pctEl.textContent=pct+'%';
+  if(sdone) sdone.textContent=done+'/'+total;
+};
+
+window.togGrupo = function(bodyId,chevId){
+  var body=document.getElementById(bodyId), chev=document.getElementById(chevId);
+  if(!body||!chev) return;
+  chev.style.transform=body.classList.toggle('open')?'':'rotate(-90deg)';
+};
+
+function switchTab(k){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');});
+  var el=document.getElementById('tab-'+k);
+  if(el) el.classList.add('active');
+  var idx=TAB_ORDER.indexOf(k);
+  var btns=document.querySelectorAll('.nav-btn');
+  if(btns[idx]) btns[idx].classList.add('active');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+buildWarmup();
+['sa','sb'].forEach(buildTreino);
+buildAlong();
+</script>
+</body>
+</html>
